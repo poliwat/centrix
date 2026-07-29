@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Centrix Score — Scorecard (Prototype)</title>
+<meta name="description" content="A prototype of the Centrix Score: rating legislators on how often they vote to empower ordinary citizens — orthogonal to left and right.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{--navy:#0e2439;--navy-2:#16324f;--slate:#4a5b6d;--gold:#c9a227;--gold-soft:#e4c766;--paper:#f7f5f0;--line:#dfe3e8;--ink:#1c2733;--left:#3a6ea5;--right:#a5433a;--green:#3f7d4f}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Georgia','Times New Roman',serif;color:var(--ink);background:var(--paper);line-height:1.6}
+  h1,h2,h3,.brand,.eyebrow,nav a,.btn,.big,.tag,.seg,select,th,.mname{font-family:'Helvetica Neue',Arial,sans-serif}
+  .wrap{max-width:980px;margin:0 auto;padding:0 26px}
+  a{color:var(--navy-2)}
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(14,36,57,.97);backdrop-filter:blur(6px)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:11px;color:#fff;font-weight:800;font-size:20px;text-decoration:none}
+  .brand .mark{width:30px;height:30px;border-radius:50%;background:conic-gradient(from 180deg,var(--left) 0 50%,var(--right) 50% 100%);border:2px solid var(--gold);position:relative;flex:none}
+  .brand .mark::after{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--gold)}
+  nav.links a{color:#cfd8e2;text-decoration:none;margin-left:22px;font-size:14px;font-weight:600}
+  nav.links a:hover{color:var(--gold-soft)}
+  .banner{background:var(--gold);color:var(--navy);text-align:center;font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;font-weight:700;padding:9px 16px;letter-spacing:.02em}
+  .hero{background:linear-gradient(160deg,var(--navy),var(--navy-2));color:#eaf0f6;padding:56px 0 48px}
+  .hero .eyebrow{text-transform:uppercase;letter-spacing:.2em;font-size:12px;font-weight:700;color:var(--gold-soft);margin-bottom:12px}
+  .hero h1{font-size:38px;line-height:1.1;color:#fff;font-weight:800;max-width:20ch}
+  .hero p{font-size:18px;color:#cdd8e4;max-width:66ch;margin-top:16px}
+  section{padding:52px 0;border-bottom:1px solid var(--line)}
+  .eyebrow{text-transform:uppercase;letter-spacing:.16em;font-size:12px;font-weight:700;color:var(--gold);margin-bottom:10px;font-family:'Helvetica Neue',Arial,sans-serif}
+  h2{font-size:26px;color:var(--navy);font-weight:800;margin-bottom:10px}
+  .sub{color:var(--slate);max-width:66ch;margin-bottom:8px}
+  /* explorer */
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(14,36,57,.05);overflow:hidden;margin-top:24px}
+  .card-top{display:grid;grid-template-columns:1fr 1.1fr;gap:0}
+  @media(max-width:760px){.card-top{grid-template-columns:1fr}}
+  .card-left{padding:28px 30px;border-right:1px solid var(--line)}
+  @media(max-width:760px){.card-left{border-right:none;border-bottom:1px solid var(--line)}}
+  select{width:100%;padding:11px 12px;border:1.5px solid var(--navy);border-radius:7px;font-size:15px;background:#fffdf6;margin-bottom:18px}
+  .mname{font-size:22px;font-weight:800;color:var(--navy)}
+  .mmeta{font-size:13px;color:var(--slate);font-family:'Helvetica Neue',Arial,sans-serif;margin:2px 0 16px}
+  .scorewrap{display:flex;align-items:baseline;gap:12px}
+  .big{font-size:66px;font-weight:800;line-height:1;color:var(--navy)}
+  .band{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:14px;padding:5px 12px;border-radius:20px;background:var(--paper);border:1px solid var(--line);color:var(--navy)}
+  .archnote{font-size:13.5px;color:var(--slate);margin-top:16px;font-style:italic}
+  .card-right{padding:22px 26px}
+  .radar-box{position:relative;height:320px}
+  .disclaimer-inline{font-family:'Helvetica Neue',Arial,sans-serif;font-size:11.5px;color:#8895a3;padding:0 30px 22px}
+  /* real votes table */
+  table{width:100%;border-collapse:collapse;margin-top:20px;font-size:14px;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  th{background:var(--navy);color:#fff;text-align:left;padding:12px 14px;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+  td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+  tr:nth-child(even) td{background:#fbfaf6}
+  .pos{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:12px;padding:3px 8px;border-radius:5px;white-space:nowrap}
+  .pos.y{background:rgba(63,125,79,.14);color:var(--green)}
+  .pos.n{background:rgba(165,67,58,.14);color:var(--right)}
+  .tag{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-family:'Helvetica Neue',Arial,sans-serif}
+  .contested{font-size:11.5px;color:var(--right);font-weight:700;font-family:'Helvetica Neue',Arial,sans-serif}
+  /* real members */
+  .mem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:22px}
+  @media(max-width:700px){.mem-grid{grid-template-columns:1fr}}
+  .mem{background:#fff;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:16px 18px}
+  .mem h3{font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;color:var(--navy)}
+  .mem .p{font-size:12px;color:var(--slate);font-family:'Helvetica Neue',Arial,sans-serif;margin-bottom:8px}
+  .mem ul{margin:0;padding-left:0;list-style:none}
+  .mem li{font-size:13px;color:var(--ink);margin-bottom:4px}
+  .mem .prov{margin-top:8px;font-size:12px;color:var(--slate);font-family:'Helvetica Neue',Arial,sans-serif}
+  .footnote{font-size:12px;color:#8895a3;margin-top:10px}
+  .footnote a{color:#8895a3}
+  footer{background:var(--navy-2);color:#9fb2c6;padding:36px 0;font-size:13px;line-height:1.8;border:none}
+  footer a{color:#b9c7d6}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="mark"></span>CENTRIX</a>
+    <nav class="links">
+      <a href="index.html">Home</a>
+      <a href="data.html">The Data</a>
+      <a href="index.html#join">Join</a>
+    </nav>
+  </div>
+</header>
+<div class="banner">PROTOTYPE — this page demonstrates the Centrix Score on real votes. It is NOT an official scorecard: a published score requires a full, pre-registered vote basket (see methodology).</div>
+
+<section class="hero" style="border:none">
+  <div class="wrap">
+    <div class="eyebrow">The Centrix Score · Scorecard</div>
+    <h1>How often do they vote to empower you?</h1>
+    <p>The Centrix Score rates legislators 0–100 on one axis — not left vs. right, but whether they vote to help ordinary citizens produce and prosper. Below: an interactive profile view, plus the first real 119th-Congress votes we've verified. Notice who crosses party lines — that's the whole point.</p>
+  </div>
+</section>
+
+<!-- EXPLORER -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Profile explorer</div>
+    <h2>What a full Centrix profile looks like</h2>
+    <p class="sub">These three profiles are <b>illustrative archetypes</b> (not real people) — they show how the 0–100 score and the eight-dimension radar work once a complete basket is scored. Pick one to see the shape.</p>
+    <div class="card">
+      <div class="card-top">
+        <div class="card-left">
+          <select id="picker"></select>
+          <div class="mname" id="mname"></div>
+          <div class="mmeta" id="mmeta"></div>
+          <div class="scorewrap"><span class="big" id="big"></span><span class="band" id="band"></span></div>
+          <div class="archnote" id="arch"></div>
+        </div>
+        <div class="card-right"><div class="radar-box"><canvas id="radar"></canvas></div></div>
+      </div>
+      <div class="disclaimer-inline">Illustrative archetypes for demonstrating the visualization. Real, published profiles will be built only from verified roll-call votes in a pre-registered basket.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL RANKING -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Full ranking</div>
+    <h2>Every member, by Centrix Score</h2>
+    <p class="sub">Sorted highest to lowest, loaded from <code>scores.csv</code>. The members below are the <b>synthetic samples</b> until you generate real scores with the pipeline. Click any name to load its radar above.</p>
+    <div id="ranking"><p class="sub" style="color:#8895a3">The ranking loads from <code>scores.csv</code> when this page is served over the web (http/https). Opened straight from disk, it stays blank — that's expected.</p></div>
+  </div>
+</section>
+
+<!-- SCORED VOTES (auto, linked) -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">The basket, linked</div>
+    <h2>Votes in the scored basket</h2>
+    <p class="sub">Every vote that counts toward the scores, each linked to the bill (congress.gov) and the roll call (VoteView). Loaded from <code>scored_votes.csv</code> — it fills in automatically once you run the pipeline on live data.</p>
+    <div id="scoredVotes"><p class="sub" style="color:#8895a3">Loads from <code>scored_votes.csv</code> when the page is served over the web.</p></div>
+  </div>
+</section>
+
+<!-- REAL VOTES -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">The real basket — so far</div>
+    <h2>Verified 119th Congress votes — 7 of 8 dimensions</h2>
+    <p class="sub">These are actual votes, mapped to Centrix dimensions with a stated aligned position and a source. This is a real, growing basket — not yet the full 20–30 votes a published score needs, but it now touches seven of the eight dimensions.</p>
+    <table>
+      <thead><tr><th>Dimension</th><th>Vote</th><th>Centrix-aligned</th><th>Result</th><th>Who crossed party lines</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="tag">1 · Wages &amp; producer</span></td>
+          <td><b>No Tax on Tips Act</b><br>S.129</td>
+          <td><span class="pos y">YES</span><br><span style="font-size:12px;color:var(--slate)">workers keep more pay</span></td>
+          <td>Senate passed unanimously (unanimous consent)</td>
+          <td>Bipartisan: Cruz (R) + Rosen, Cortez Masto (D)</td>
+        </tr>
+        <tr>
+          <td><span class="tag">2 · Housing</span></td>
+          <td><b>21st Century ROAD to Housing Act</b><br>H.R.6644</td>
+          <td><span class="pos y">YES</span><br><span style="font-size:12px;color:var(--slate)">boost supply/affordability</span></td>
+          <td>House 390–9; Senate 89–10 — overwhelmingly bipartisan</td>
+          <td>Near-unanimous; almost every member aligned</td>
+        </tr>
+        <tr>
+          <td><span class="tag">3 · Cost of essentials</span></td>
+          <td><b>Resolutions to repeal broad Trump tariffs</b> (Canada / global)</td>
+          <td><span class="pos y">YES</span><br><span class="contested">contested within Centrix</span></td>
+          <td>Senate passed (e.g., 51–47); House leadership declared DOA</td>
+          <td>GOP for: Collins, Murkowski, McConnell, Paul</td>
+        </tr>
+        <tr>
+          <td><span class="tag">4 · Safety net</span></td>
+          <td><b>H.R.1 reconciliation</b> ("One Big Beautiful Bill")</td>
+          <td><span class="pos n">NO</span><br><span class="contested">omnibus — judgment call</span></td>
+          <td>House 215–214</td>
+          <td>GOP against: Massie, Davidson (Garbarino "present"); all Democrats against</td>
+        </tr>
+        <tr>
+          <td><span class="tag">5 · Anti-monopoly</span></td>
+          <td><b>PBM transparency &amp; reform</b><br>S.526 / H.R.4317</td>
+          <td><span class="pos y">YES</span><br><span style="font-size:12px;color:var(--slate)">curb dominant middlemen</span></td>
+          <td>Advanced/enacted with bipartisan support</td>
+          <td>Bipartisan: Grassley (R) + Cantwell (D)</td>
+        </tr>
+        <tr>
+          <td><span class="tag">6 · Non-intervention</span></td>
+          <td><b>Iran War Powers</b><br>H.Con.Res.86</td>
+          <td><span class="pos y">YES</span><br><span style="font-size:12px;color:var(--slate)">restraint abroad</span></td>
+          <td>House ~214–208; Senate companion failed 47–49</td>
+          <td>GOP for: Massie, Davidson, Fitzpatrick, Barrett (House); Paul, Collins, Murkowski, Cassidy (Senate)</td>
+        </tr>
+        <tr>
+          <td><span class="tag">8 · Conscience &amp; pluralism</span></td>
+          <td><b>Condemning political violence</b><br>H.Res.519 / H.Res.746</td>
+          <td><span class="pos y">YES</span><br><span style="font-size:12px;color:var(--slate)">no violence, ever</span></td>
+          <td>Agreed to — near-consensus</td>
+          <td>Broadly bipartisan (using a principled, non-person-specific resolution)</td>
+        </tr>
+        <tr style="background:#f7ecea">
+          <td><span class="tag" style="color:var(--right)">7 · Localism</span></td>
+          <td><b>— no clean vote yet —</b></td>
+          <td colspan="3" style="color:var(--right);font-size:13.5px"><b>Honest gap.</b> The available decentralization votes this session (CRA / REINS-type) are party-line coded — scoring them would bias the basket and fail the party-symmetry test. We use the co-sponsorship signal here, or wait for a genuinely bipartisan federalism vote, rather than force a partisan one in.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="footnote">Honesty is the product. Three flags built in: <b>reconciliation</b> bundles many policies (omnibus judgment call); <b>tariffs</b> are genuinely contested within a "domestic production" philosophy (broad tariffs raise household and small-producer costs, so aligned = repeal, but targeted industrial policy is a separate question); and <b>localism</b> has no clean non-partisan vote this session, which we disclose rather than paper over. Every position is provisional and open to challenge — exactly as the methodology requires.</p>
+  </div>
+</section>
+
+<!-- REAL MEMBERS -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Real members · provisional</div>
+    <h2>The machinery, run on real people</h2>
+    <p class="sub">Below are actual, sourced positions for well-known members on the verified votes above. Because this is a <b>partial basket</b>, these are <b>provisional tallies, not official Centrix Scores.</b> Note how the aligned votes cut across both parties.</p>
+    <div class="mem-grid" id="mems"></div>
+    <p class="footnote">Every position above is drawn from public roll-call reporting. A member's full Centrix Score will be computed only after the complete basket is pre-registered and the party-symmetry test is run. Sources listed in the footer.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b style="color:#fff">Vote sources:</b>
+    <a href="https://www.congress.gov/bill/119th-congress/house-concurrent-resolution/86/text" target="_blank" rel="noopener">H.Con.Res.86 (Iran War Powers)</a> ·
+    <a href="https://www.npr.org/2026/07/23/nx-s1-5904515/congress-iran-war-powers-vote" target="_blank" rel="noopener">NPR (war powers)</a> ·
+    <a href="https://www.congress.gov/bill/119th-congress/house-bill/6644/text" target="_blank" rel="noopener">H.R.6644 (ROAD to Housing)</a> ·
+    <a href="https://thehill.com/homenews/house/5937132-housing-affordability-package-bipartisan/" target="_blank" rel="noopener">The Hill (housing)</a> ·
+    <a href="https://www.congress.gov/bill/119th-congress/house-bill/1/text" target="_blank" rel="noopener">H.R.1 (reconciliation)</a> ·
+    <a href="https://rollcall.com/2025/04/02/four-republicans-help-democrats-pass-measure-to-end-canadian-tariffs/" target="_blank" rel="noopener">Roll Call (tariffs)</a>
+    <div style="margin-top:14px;color:#7f92a5">Centrix — an independent citizen movement, written under the pen name Saint Moses the Black. Prototype scorecard for discussion. <a href="index.html">Home</a></div>
+  </div>
+</footer>
+
+<script>
+  const NAVY='#0e2439', GOLD='#c9a227', SLATE='#4a5b6d', GRID='#d9d3c4';
+  Chart.defaults.font.family="'Helvetica Neue', Arial, sans-serif";
+  Chart.defaults.color=SLATE;
+
+  const DIMS=['Wages &\nproducer','Housing &\nfamily','Cost &\nsound money','Safety net\n+ off-ramp','Small biz &\nanti-monopoly','Domestic &\nnon-interv.','Localism','Conscience &\npluralism'];
+
+  // Illustrative archetypes (NOT real people)
+  const PROFILES=[
+    {name:'Profile A — "The Crosser"', meta:'Illustrative archetype', overall:81, band:'Strong Ally',
+     arch:'Breaks from party when a vote empowers citizens — high on non-intervention, housing, and small-business, wherever that lands on the map.',
+     dims:[80,88,70,72,85,95,84,78]},
+    {name:'Profile B — "The Party-Liner"', meta:'Illustrative archetype', overall:42, band:'Off-Track / Mixed',
+     arch:'Votes the caucus line almost every time, so alignment rises and falls with whatever leadership brings to the floor.',
+     dims:[45,55,35,40,30,38,44,50]},
+    {name:'Profile C — "The Centrix Champion"', meta:'Illustrative archetype', overall:91, band:'Centrix Champion',
+     arch:'Consistently votes to empower citizens across every dimension — the profile the score is built to surface, in either party.',
+     dims:[92,90,88,86,90,94,93,89]}
+  ];
+
+  const picker=document.getElementById('picker');
+  let ALL=PROFILES.slice();   // active list — illustrative archetypes by default
+  let radar;
+  function renderPicker(){
+    picker.innerHTML='';
+    ALL.forEach((p,i)=>{const o=document.createElement('option');o.value=i;o.textContent=p.name;picker.appendChild(o);});
+  }
+  function draw(i){
+    const p=ALL[i]; if(!p) return;
+    document.getElementById('mname').textContent=p.name;
+    document.getElementById('mmeta').textContent=p.meta;
+    document.getElementById('big').textContent=(p.overall===null||p.overall===undefined)?'—':p.overall;
+    document.getElementById('band').textContent=p.band||'';
+    document.getElementById('arch').textContent=p.arch||'';
+    const data={labels:DIMS,datasets:[{label:'Centrix alignment',data:p.dims,
+      backgroundColor:'rgba(201,162,39,.22)',borderColor:GOLD,borderWidth:2,pointBackgroundColor:NAVY,pointRadius:3}]};
+    if(radar){radar.data=data;radar.update();}
+    else{radar=new Chart(document.getElementById('radar'),{type:'radar',data,
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+        scales:{r:{min:0,max:100,ticks:{stepSize:25,backdropColor:'transparent',color:'#9aa'},grid:{color:GRID},angleLines:{color:GRID},pointLabels:{font:{size:10,weight:'600'},color:NAVY}}}}});}
+  }
+  picker.addEventListener('change',e=>draw(+e.target.value));
+  renderPicker(); draw(0);
+
+  // ---- Load real profiles from the pipeline output (scores.csv) if available ----
+  // Full dimension names in order 1..8 — must match rules.json dimension_names.
+  const FULLDIMS=['Wages & producer economy','Housing & family formation','Cost of essentials & sound money','Safety net with an off-ramp','Small-scale enterprise & anti-monopoly','Domestic strength & non-intervention','Localism & decentralization','Freedom of conscience & pluralism'];
+  function parseCSV(text){
+    const rows=[];let row=[],cur='',q=false;
+    for(let i=0;i<text.length;i++){const c=text[i];
+      if(q){ if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; } else cur+=c; }
+      else{ if(c==='"')q=true; else if(c===','){row.push(cur);cur='';}
+        else if(c==='\n'){row.push(cur);rows.push(row);row=[];cur='';}
+        else if(c!=='\r')cur+=c; }
+    }
+    if(cur.length||row.length){row.push(cur);rows.push(row);}
+    return rows.filter(r=>r.length>1);
+  }
+  fetch('scores.csv').then(r=>{if(!r.ok)throw 0;return r.text();}).then(txt=>{
+    const rows=parseCSV(txt);const head=rows.shift();const idx=n=>head.indexOf(n);
+    const profs=rows.map(r=>{
+      let ds={};try{ds=JSON.parse(r[idx('dimension_scores')]||'{}');}catch(e){}
+      const dims=FULLDIMS.map(n=>(n in ds)?ds[n]:0);
+      const raw=r[idx('centrix_score')];const num=/^\d+$/.test(raw)?+raw:null;
+      return {name:r[idx('name')]+' ('+r[idx('party')]+')',
+              meta:'From pipeline output · scores.csv',
+              overall:num===null?'—':num,
+              band:num===null?'Insufficient record':r[idx('band')],
+              arch:'Cast '+r[idx('votes_cast')]+', missed '+r[idx('votes_missed')]+'. Generated by the classification pipeline — replace scores.csv to update.',
+              dims};
+    });
+    if(profs.length){ ALL=profs.concat(PROFILES); renderPicker(); draw(0);
+      const dn=document.querySelector('.disclaimer-inline');
+      if(dn)dn.textContent='Now showing '+profs.length+' profile(s) loaded live from the pipeline output (scores.csv), followed by the illustrative archetypes. These sample profiles are synthetic; regenerate scores.csv from real roll-call data to populate real members.';
+    }
+    // ---- build the full ranking table (name -> score) ----
+    const rk=rows.map((r,i)=>({i,name:r[idx('name')],party:r[idx('party')],
+      chamber:r[idx('chamber')]||'', num:/^\d+$/.test(r[idx('centrix_score')])?+r[idx('centrix_score')]:null,
+      band:r[idx('band')]}));
+    rk.sort((a,b)=>a.num===null?1:b.num===null?-1:b.num-a.num);
+    let html='<table><thead><tr><th>#</th><th>Member</th><th>Party</th><th>Chamber</th><th>Centrix Score</th><th>Band</th></tr></thead><tbody>';
+    let rank=0;
+    rk.forEach(m=>{const pos=m.num!==null?(++rank):'';
+      html+='<tr><td>'+pos+'</td><td><a href="#" class="rk" data-i="'+m.i+'">'+m.name+'</a></td><td>'+m.party+'</td><td>'+m.chamber+'</td><td><b>'+(m.num!==null?m.num:'—')+'</b></td><td>'+(m.band||'insufficient record')+'</td></tr>';});
+    html+='</tbody></table>';
+    const rc=document.getElementById('ranking'); if(rc){rc.innerHTML=html;
+      rc.querySelectorAll('.rk').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();
+        const i=+e.target.dataset.i; picker.value=i; draw(i);
+        document.getElementById('picker').scrollIntoView({behavior:'smooth',block:'center'});}));
+    }
+  }).catch(()=>{/* opened as file:// or no scores.csv present — keep archetypes */});
+
+  // ---- Basket votes with links (scored_votes.csv) ----
+  fetch('scored_votes.csv').then(r=>{if(!r.ok)throw 0;return r.text();}).then(txt=>{
+    const rows=parseCSV(txt); const head=rows.shift(); const ix=n=>head.indexOf(n);
+    if(!rows.length) return;
+    let html='<table><thead><tr><th>Dimension</th><th>Bill</th><th>Centrix-aligned</th><th>Roll call</th></tr></thead><tbody>';
+    rows.forEach(r=>{
+      const bill=r[ix('bill_number')]||'', burl=r[ix('bill_url')]||'', vurl=r[ix('vote_url')]||'';
+      const billCell=burl?('<a href="'+burl+'" target="_blank" rel="noopener">'+bill+'</a>'):bill;
+      const voteCell=vurl?('<a href="'+vurl+'" target="_blank" rel="noopener">view vote &rarr;</a>'):'';
+      const pos=(r[ix('centrix_aligned_position')]||'');
+      html+='<tr><td>'+(r[ix('dimension_name')]||'')+'</td><td>'+billCell+'</td><td><span class="pos '+(pos==='Yea'?'y':'n')+'">'+pos.toUpperCase()+'</span></td><td>'+voteCell+'</td></tr>';
+    });
+    html+='</tbody></table>';
+    const el=document.getElementById('scoredVotes'); if(el) el.innerHTML=html;
+  }).catch(()=>{/* no scored_votes.csv yet */});
+
+  // Real members — verified, provisional
+  const MEMBERS=[
+    {n:'Sen. Rand Paul', p:'R–KY', v:[['Iran War Powers','YES','y'],['Repeal broad tariffs','YES','y']], prov:'2 / 2 aligned on verified votes'},
+    {n:'Sen. Susan Collins', p:'R–ME', v:[['Iran War Powers','YES','y'],['Repeal broad tariffs','YES','y']], prov:'2 / 2 aligned on verified votes'},
+    {n:'Sen. Lisa Murkowski', p:'R–AK', v:[['Iran War Powers','YES','y'],['Repeal broad tariffs','YES','y']], prov:'2 / 2 aligned on verified votes'},
+    {n:'Sen. Mitch McConnell', p:'R–KY', v:[['Repeal broad tariffs','YES','y']], prov:'1 / 1 verified (other votes pending)'},
+    {n:'Rep. Thomas Massie', p:'R–KY', v:[['Iran War Powers','YES','y'],['H.R.1 reconciliation','NO','y']], prov:'2 / 2 aligned on verified votes'},
+    {n:'Rep. Warren Davidson', p:'R–OH', v:[['Iran War Powers','YES','y'],['H.R.1 reconciliation','NO','y']], prov:'2 / 2 aligned on verified votes'}
+  ];
+  const mc=document.getElementById('mems');
+  MEMBERS.forEach(m=>{
+    const el=document.createElement('div');el.className='mem';
+    el.innerHTML=`<h3>${m.n}</h3><div class="p">${m.p}</div><ul>`+
+      m.v.map(x=>`<li><span class="pos ${x[2]}">${x[1]}</span> &nbsp;${x[0]} <span style="color:#3f7d4f;font-weight:700">✓ aligned</span></li>`).join('')+
+      `</ul><div class="prov"><b>Provisional:</b> ${m.prov}</div>`;
+    mc.appendChild(el);
+  });
+</script>
+</body>
+</html>

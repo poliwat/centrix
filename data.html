@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Data — Centrix</title>
+<meta name="description" content="The evidence behind Centrix: three trends that declined for American citizens across administrations of both parties.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{--navy:#0e2439;--navy-2:#16324f;--slate:#4a5b6d;--gold:#c9a227;--gold-soft:#e4c766;--paper:#f7f5f0;--line:#dfe3e8;--ink:#1c2733;--left:#3a6ea5;--right:#a5433a}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Georgia','Times New Roman',serif;color:var(--ink);background:var(--paper);line-height:1.65}
+  h1,h2,h3,.brand,.eyebrow,nav a,.btn,.stat-num,.axis-note{font-family:'Helvetica Neue',Arial,sans-serif}
+  .wrap{max-width:940px;margin:0 auto;padding:0 28px}
+  a{color:var(--navy-2)}
+  /* nav */
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(14,36,57,.97);backdrop-filter:blur(6px)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:11px;color:#fff;font-weight:800;font-size:20px;text-decoration:none}
+  .brand .mark{width:30px;height:30px;border-radius:50%;background:conic-gradient(from 180deg,var(--left) 0 50%,var(--right) 50% 100%);border:2px solid var(--gold);position:relative;flex:none}
+  .brand .mark::after{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--gold)}
+  nav.links a{color:#cfd8e2;text-decoration:none;margin-left:24px;font-size:14px;font-weight:600}
+  nav.links a:hover{color:var(--gold-soft)}
+  @media(max-width:640px){nav.links a{margin-left:14px;font-size:13px}}
+  /* hero */
+  .hero{background:linear-gradient(160deg,var(--navy),var(--navy-2));color:#eaf0f6;padding:72px 0 60px}
+  .hero .eyebrow{text-transform:uppercase;letter-spacing:.22em;font-size:12px;font-weight:700;color:var(--gold-soft);margin-bottom:14px}
+  .hero h1{font-size:42px;line-height:1.1;color:#fff;font-weight:800;max-width:20ch}
+  .hero p{font-size:19px;color:#cdd8e4;max-width:64ch;margin-top:18px}
+  /* sections */
+  section.chart-sec{padding:70px 0;border-bottom:1px solid var(--line)}
+  .eyebrow{text-transform:uppercase;letter-spacing:.18em;font-size:12px;font-weight:700;color:var(--gold);margin-bottom:10px;font-family:'Helvetica Neue',Arial,sans-serif}
+  h2{font-size:28px;color:var(--navy);font-weight:800;line-height:1.15;margin-bottom:12px}
+  .lead-p{font-size:17px;color:var(--slate);max-width:66ch;margin-bottom:8px}
+  .chart-card{background:#fff;border:1px solid var(--line);border-top:4px solid var(--gold);border-radius:10px;padding:26px;margin-top:26px;box-shadow:0 8px 24px rgba(14,36,57,.05)}
+  .chart-box{position:relative;height:340px}
+  .axis-note{font-size:12px;color:#8895a3;margin-top:14px}
+  .axis-note a{color:#8895a3}
+  .takeaway{background:var(--navy);color:#dbe4ee;border-radius:8px;padding:18px 22px;margin-top:22px;font-size:15px}
+  .takeaway b{color:var(--gold-soft)}
+  /* close */
+  .close{background:var(--navy);color:#dce5ef;padding:64px 0;text-align:center}
+  .close h2{color:#fff}
+  .close p{max-width:60ch;margin:12px auto 0;color:#aebccb}
+  .btn{display:inline-block;text-decoration:none;font-weight:700;font-size:15px;padding:14px 26px;border-radius:6px;margin-top:24px;font-family:'Helvetica Neue',Arial,sans-serif}
+  .btn-gold{background:var(--gold);color:var(--navy)}
+  footer{background:var(--navy-2);color:#9fb2c6;padding:40px 0;font-size:13px;line-height:1.9}
+  footer a{color:#b9c7d6}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="mark"></span>CENTRIX</a>
+    <nav class="links">
+      <a href="index.html">Home</a>
+      <a href="index.html#platform">Platform</a>
+      <a href="scorecard.html">Scorecard</a>
+      <a href="index.html#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">The evidence</div>
+    <h1>Three declines that don't care who's in office</h1>
+    <p>Left and right argue endlessly over social questions. Meanwhile, the measures that decide whether an ordinary American can build a good life have moved the wrong way — across Democratic and Republican administrations alike. Here is the data, with sources. Judge for yourself.</p>
+  </div>
+</section>
+
+<!-- CHART 1 -->
+<section class="chart-sec">
+  <div class="wrap">
+    <div class="eyebrow">Decline No. 1 — A roof of your own</div>
+    <h2>Homes went from ~3× income to ~5×</h2>
+    <p class="lead-p">In 1970 a typical home cost around three times the median household income — a level generations treated as normal. Today it sits near five times income, and a median-earning household would spend roughly 42% of income on the median home, far above the 30% affordability threshold.</p>
+    <div class="chart-card">
+      <div class="chart-box"><canvas id="c1"></canvas></div>
+      <p class="axis-note">Median home price ÷ median household income. Figures approximate, drawn from: Visual Capitalist, Harvard Joint Center for Housing Studies, and Zoocasa. Coastal metros run far higher (8–12×); much of the Midwest and South runs lower (2.5–3.5×).</p>
+    </div>
+    <div class="takeaway">Presidents of both parties held office across this entire climb. <b>Housing didn't get unaffordable on one side's watch — it got unaffordable on everyone's.</b></div>
+  </div>
+</section>
+
+<!-- CHART 2 -->
+<section class="chart-sec">
+  <div class="wrap">
+    <div class="eyebrow">Decline No. 2 — The war on the middle class</div>
+    <h2>Pay stopped tracking the work</h2>
+    <p class="lead-p">For decades after World War II, worker pay rose in lockstep with productivity. Since 1979 they split apart: net productivity has grown about 90% while the pay of a typical worker grew only about 33% — productivity climbing roughly 3.5× as fast as pay. Had pay kept pace, the typical worker would earn on the order of $16 more per hour today.</p>
+    <div class="chart-card">
+      <div class="chart-box"><canvas id="c2"></canvas></div>
+      <p class="axis-note">Cumulative % growth since 1979, net productivity vs. typical worker compensation. Source: Economic Policy Institute, <a href="https://www.epi.org/productivity-pay-gap/" target="_blank" rel="noopener">The Productivity–Pay Gap</a>.</p>
+    </div>
+    <div class="takeaway">The gap opened under administrations of both parties and kept widening through boom and bust. <b>The reward for work came unhooked from the work itself — and stayed that way regardless of who won.</b></div>
+  </div>
+</section>
+
+<!-- CHART 3 -->
+<section class="chart-sec">
+  <div class="wrap">
+    <div class="eyebrow">Decline No. 3 — The cost of building a life</div>
+    <h2>The essentials outran wages and inflation</h2>
+    <p class="lead-p">Since 1980, the prices of the things that build a middle-class life have far outpaced general inflation. College tuition rose about 1,200% and healthcare about 450%, while the overall Consumer Price Index rose about 236%. Over a longer horizon, the dollar has lost more than 96% of its 1913 purchasing power.</p>
+    <div class="chart-card">
+      <div class="chart-box"><canvas id="c3"></canvas></div>
+      <p class="axis-note">Approximate cumulative price growth, 1980–2023. Sources: Forbes Advisor and BLS data (tuition, healthcare, CPI, housing). Figures rounded for comparison.</p>
+    </div>
+    <div class="takeaway">Every one of these curves climbed across both parties' time in power. <b>The path into the middle class kept getting more expensive no matter who was steering.</b></div>
+  </div>
+</section>
+
+<section class="close">
+  <div class="wrap">
+    <h2>Different sides. Same decline.</h2>
+    <p>You can disagree with us about a hundred things and still see it: on the measures that matter most for an ordinary family, we've been losing ground together. That's the problem Centrix exists to solve.</p>
+    <a class="btn btn-gold" href="index.html#join">Join the movement</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b style="color:#fff">Sources</b> &nbsp;
+    <a href="https://www.visualcapitalist.com/charted-american-income-vs-home-prices-1985-2025/" target="_blank" rel="noopener">Visual Capitalist (home prices)</a> &nbsp;·&nbsp;
+    <a href="https://www.jchs.harvard.edu/blog/home-price-income-ratio-reaches-record-high-0" target="_blank" rel="noopener">Harvard JCHS</a> &nbsp;·&nbsp;
+    <a href="https://www.zoocasa.com/blog/housing-affordability-1965-to-2025/" target="_blank" rel="noopener">Zoocasa</a> &nbsp;·&nbsp;
+    <a href="https://www.epi.org/productivity-pay-gap/" target="_blank" rel="noopener">Economic Policy Institute</a> &nbsp;·&nbsp;
+    <a href="https://www.forbes.com/advisor/student-loans/college-tuition-inflation/" target="_blank" rel="noopener">Forbes Advisor</a> &nbsp;·&nbsp;
+    <a href="https://www.visualcapitalist.com/charted-the-declining-purchasing-power-of-the-u-s-dollar/" target="_blank" rel="noopener">Visual Capitalist (dollar)</a>
+    <div style="margin-top:16px;color:#7f92a5">Centrix — an independent citizen movement, written under the pen name Saint Moses the Black. Policy ideas offered for discussion. <a href="index.html">Back to home</a></div>
+  </div>
+</footer>
+
+<script>
+  const NAVY='#0e2439', GOLD='#c9a227', LEFT='#3a6ea5', RIGHT='#a5433a', SLATE='#4a5b6d', GRID='#e6e2d8';
+  Chart.defaults.font.family = "'Helvetica Neue', Arial, sans-serif";
+  Chart.defaults.color = SLATE;
+  const baseOpts = (yTitle, yFmt) => ({
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{ display:true, labels:{ boxWidth:14, font:{weight:'600'} } }, tooltip:{ callbacks:{} } },
+    scales:{
+      x:{ grid:{ color:GRID } },
+      y:{ grid:{ color:GRID }, title:{ display:true, text:yTitle, font:{weight:'700'} },
+          ticks:{ callback:(v)=> yFmt ? yFmt(v) : v } }
+    }
+  });
+
+  // Chart 1 — price-to-income ratio
+  new Chart(document.getElementById('c1'), {
+    type:'line',
+    data:{ labels:['1970','1985','2000','2004','2010','2020','2024'],
+      datasets:[{ label:'Home price ÷ income', data:[3.2,3.5,4.1,5.0,4.6,4.9,5.1],
+        borderColor:NAVY, backgroundColor:'rgba(14,36,57,.08)', borderWidth:3, fill:true, tension:.3,
+        pointBackgroundColor:GOLD, pointRadius:5 },
+        { label:'Historic "affordable" norm (~3×)', data:[3,3,3,3,3,3,3],
+        borderColor:GOLD, borderDash:[6,5], borderWidth:2, pointRadius:0, fill:false }]},
+    options: baseOpts('× median income', v=>v+'×')
+  });
+
+  // Chart 2 — productivity vs pay
+  new Chart(document.getElementById('c2'), {
+    type:'line',
+    data:{ labels:['1979','1990','2000','2010','2020','2025'],
+      datasets:[{ label:'Net productivity', data:[0,25,45,65,82,90],
+        borderColor:RIGHT, backgroundColor:'rgba(165,67,58,.06)', borderWidth:3, fill:true, tension:.3, pointRadius:4 },
+        { label:'Typical worker pay', data:[0,8,15,22,29,33],
+        borderColor:LEFT, backgroundColor:'rgba(58,110,165,.06)', borderWidth:3, fill:true, tension:.3, pointRadius:4 }]},
+    options: baseOpts('Cumulative growth since 1979', v=>v+'%')
+  });
+
+  // Chart 3 — cost growth bars
+  new Chart(document.getElementById('c3'), {
+    type:'bar',
+    data:{ labels:['College tuition','Healthcare','Housing','Overall inflation (CPI)'],
+      datasets:[{ label:'Price growth since 1980',
+        data:[1200,450,380,236],
+        backgroundColor:[RIGHT,'#c07a35',LEFT,SLATE], borderRadius:6 }]},
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display:false } },
+      scales:{ x:{ grid:{ display:false } },
+        y:{ grid:{ color:GRID }, title:{ display:true, text:'Cumulative price growth', font:{weight:'700'} },
+            ticks:{ callback:v=>v+'%' } } } }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+/* ============================================================
+   Centrix — "Warm / Grassroots" alternate color theme
+   ------------------------------------------------------------
+   The default site is cool navy + gold (modern civic).
+   This file re-colors it with an earthy, community palette
+   (deep sage, amber, warm cream) that fits the localism /
+   local-manufacturing theme.
+
+   HOW TO USE:
+   In index.html and data.html, add this line in the <head>,
+   AFTER the closing </style> tag of the built-in styles:
+
+       <link rel="stylesheet" href="theme-warm.css">
+
+   Because it loads last, it overrides the default colors.
+   To go back to the original look, just delete that line.
+   The blue/red accents on the left/right "spectrum" are kept
+   intentionally, so the political symbolism still reads.
+   ============================================================ */
+
+:root{
+  --navy:#2f3b30;      /* deep sage — replaces navy for dark sections */
+  --navy-2:#3c4a3b;    /* lighter sage */
+  --slate:#5c6157;     /* warm gray-green body text on light bg */
+  --gold:#c68a2e;      /* amber, warmer than the original gold */
+  --gold-soft:#e2b463; /* soft amber for dark backgrounds */
+  --paper:#f6f1e7;     /* warm cream page background */
+  --paper-2:#eee7d8;   /* second cream tone */
+  --line:#ddd5c4;      /* warm hairline */
+  --ink:#2a2620;       /* near-black warm ink */
+  /* left/right accents kept for symbolic meaning */
+  --left:#3a6ea5;
+  --right:#a5433a;
+}
+
+/* nudge a couple of gradients toward warmth to match */
+.hero{
+  background:
+    radial-gradient(1100px 500px at 75% -10%,rgba(198,138,46,.20),transparent 60%),
+    linear-gradient(160deg,#2f3b30 0%,#3c4a3b 100%) !important;
+}

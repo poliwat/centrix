@@ -1,0 +1,16 @@
+rollcall_key,congress,chamber,bill_number,description,bill_url,vote_url,relevant,dimension,dimension_name,trigger_keywords,centrix_aligned_position,needs_review,reason
+RC001,,House,S.129,No Tax on Tips Act to exempt reported tip income from federal income tax for tipped workers,,,True,1,Wages & producer economy,tipped; tip income; no tax on tips,Yea,False,classified
+RC002,,House,H.R.6644,21st Century ROAD to Housing Act to increase housing supply and affordability and reform local zoning,,,True,2,Housing & family formation,housing; zoning; housing supply,Yea,False,classified
+RC003,,Senate,S.J.Res.__,Joint resolution to terminate the national emergency imposing broad tariffs on imported goods,,,True,3,Cost of essentials & sound money,tariff,Yea,True,WEAK: single keyword match
+RC004,,House,H.R.1,"Reconciliation Act making changes to taxes, Medicaid, and SNAP nutrition assistance",,,True,4,Safety net with an off-ramp,medicaid; snap; nutrition assistance,Nay,False,classified
+RC005,,House,H.R.4317,Pharmacy Benefit Manager transparency and reform to curb middleman spread pricing on prescription drugs,,,True,5,Small-scale enterprise & anti-monopoly,pharmacy benefit manager; middleman,Yea,False,classified
+RC006,,House,H.Con.Res.86,War Powers Resolution to remove United States Armed Forces from hostilities with Iran,,,True,6,Domestic strength & non-intervention,war powers; armed forces; hostilities,Yea,False,classified
+RC007,,House,H.Res.519,Resolution condemning political violence and rejecting rhetoric that dehumanizes political opponents,,,True,8,Freedom of conscience & pluralism,political violence,Yea,True,WEAK: single keyword match
+RC008,,House,H.R.1234,Motion to proceed to consideration of the bill,,,False,,,,,False,excluded (matched 'motion to proceed')
+RC009,,House,H.Res.200,Providing for consideration of the previous question,,,False,,,,,False,excluded (matched 'previous question')
+RC010,,House,H.R.555,Designating the facility as the John Q. Doe Post Office,,,False,,,,,False,excluded (matched 'post office')
+RC011,,Senate,PN123,Confirmation of nomination of Jane Roe to be Secretary of Commerce,,,False,,,,,False,excluded (matched 'nomination')
+RC012,,House,H.Res.310,Recognizing the 100th anniversary of a civic organization,,,False,,,,,False,excluded (matched 'anniversary')
+RC013,,House,H.R.4488,Bill to fund domestic critical minerals and rare earth production for energy independence,,,True,6,Domestic strength & non-intervention,critical mineral; rare earth; energy independence,Yea,False,classified
+RC014,,House,H.R.5120,Bill establishing block grants returning authority to states and local governments,,,True,7,Localism & decentralization,block grant; states and local; local government,Yea,False,classified
+RC015,,House,H.R.3901,Bill to expand registered apprenticeship and job training programs for workers,,,True,1,Wages & producer economy,apprentic; job training,Yea,False,classified

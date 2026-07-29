@@ -1,0 +1,7 @@
+rank,name,party,chamber,centrix_score,band
+1,Sen. A. Champion,Ind,Senate,100,Centrix Champion
+2,Rep. D. Partyline-Min,PartyB,House,82,Strong Ally
+3,Sen. B. Crosser,PartyA,Senate,73,Strong Ally
+4,Rep. C. Partyline-Maj,PartyA,House,60,Leans Centrix
+5,Sen. E. Mixed,PartyB,Senate,49,Mixed
+,Rep. F. Absentee,PartyA,House,insufficient record,

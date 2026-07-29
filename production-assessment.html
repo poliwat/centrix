@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Production Assessment — Centrix</title>
+  <style>
+    :root {
+      --navy: #0e2439;
+      --light-navy: #16324f;
+      --gold: #c9a227;
+      --gray: #4a5b6d;
+      --light-gray: #dfe3e8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      color: var(--navy);
+      background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 100%);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(14, 36, 57, 0.1);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(160deg, var(--navy) 0%, var(--light-navy) 100%);
+      color: white;
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+    }
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    .header p {
+      font-size: 1rem;
+      color: #cdd8e4;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .content {
+      padding: 2rem;
+    }
+    .quiz-section {
+      margin-bottom: 2.5rem;
+      display: none;
+    }
+    .quiz-section.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .section-question {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+    .section-hint {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+    .option-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      padding: 1rem;
+      border: 2px solid var(--light-gray);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    label:hover {
+      border-color: var(--gold);
+      background: #f9f7f2;
+    }
+    input[type="radio"], input[type="text"], textarea {
+      margin: 0;
+    }
+    input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      margin-top: 0.2rem;
+      flex-shrink: 0;
+      cursor: pointer;
+      accent-color: var(--gold);
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 2px solid var(--light-gray);
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border-color 0.2s ease;
+    }
+    input[type="text"]:focus, textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .option-text {
+      flex: 1;
+    }
+    .option-text strong {
+      display: block;
+      color: var(--navy);
+      margin-bottom: 0.2rem;
+    }
+    .option-text span {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+    .progress {
+      background: var(--light-gray);
+      height: 6px;
+      margin-bottom: 2rem;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      background: var(--gold);
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+    .buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--light-gray);
+    }
+    button {
+      padding: 0.9rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-prev {
+      background: var(--light-gray);
+      color: var(--navy);
+    }
+    .btn-prev:hover {
+      background: #cdd8e4;
+    }
+    .btn-next, .btn-submit {
+      background: var(--gold);
+      color: var(--navy);
+      flex: 1;
+    }
+    .btn-next:hover, .btn-submit:hover {
+      background: #d4b435;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(201, 162, 39, 0.3);
+    }
+    .btn-next:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+    .loading.active {
+      display: block;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid var(--light-gray);
+      border-top: 4px solid var(--gold);
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .report {
+      display: none;
+    }
+    .report.active {
+      display: block;
+      animation: fadeIn 0.5s ease-in;
+    }
+    .report-header {
+      background: linear-gradient(160deg, var(--navy) 0%, var(--light-navy) 100%);
+      color: white;
+      padding: 2rem;
+      margin: -2rem -2rem 2rem -2rem;
+      text-align: center;
+    }
+    .report-header h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+    .report-content {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--navy);
+    }
+    .report-content h3 {
+      color: var(--navy);
+      margin-top: 1.5rem;
+      margin-bottom: 0.8rem;
+      font-size: 1.2rem;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 0.5rem;
+    }
+    .report-content p {
+      margin-bottom: 1rem;
+    }
+    .report-content ul, .report-content ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .report-content li {
+      margin-bottom: 0.5rem;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--light-gray);
+      flex-wrap: wrap;
+    }
+    .cta-buttons button {
+      flex: 1;
+      min-width: 150px;
+    }
+    .btn-retake {
+      background: var(--light-gray);
+      color: var(--navy);
+    }
+    .btn-retake:hover {
+      background: #cdd8e4;
+    }
+    .btn-download, .btn-share {
+      background: var(--gold);
+      color: var(--navy);
+    }
+    .btn-download:hover, .btn-share:hover {
+      background: #d4b435;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(201, 162, 39, 0.3);
+    }
+    @media (max-width: 600px) {
+      .header h1 { font-size: 1.5rem; }
+      .content { padding: 1.5rem; }
+      .cta-buttons { flex-direction: column; }
+      .cta-buttons button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>Your Production Assessment</h1>
+    <p>Discover how to build a sustainable income in your local economy, tailored to your skills, geography, and goals.</p>
+  </div>
+
+  <div class="content">
+    <div class="progress">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <form id="assessmentForm">
+      <!-- Section 1: Geography & Community -->
+      <div class="quiz-section active" data-section="1">
+        <div class="section-label">Step 1 of 6</div>
+        <div class="section-question">Where do you live, and what's your community like?</div>
+        <div class="section-hint">This matters: rural economies need different ideas than urban ones.</div>
+        <div class="option-group">
+          <div>
+            <label>
+              <input type="radio" name="geography" value="urban" required>
+              <div class="option-text">
+                <strong>Urban (city, 50k+ people)</strong>
+                <span>Dense, diverse, lots of competition, high rents</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="geography" value="suburban">
+              <div class="option-text">
+                <strong>Suburban (20k–50k people)</strong>
+                <span>Growing, family-oriented, mixed services</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="geography" value="rural">
+              <div class="option-text">
+                <strong>Rural (under 20k, spread out)</strong>
+                <span>Close-knit, word-of-mouth matters, DIY culture</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="geography" value="remote">
+              <div class="option-text">
+                <strong>Remote/very rural (1–5k people)</strong>
+                <span>Self-reliant, tight community, limited services</span>
+              </div>
+            </label>
+          </div>
+        </div>
+        <div style="margin-top: 1.5rem;">
+          <label>What state/region? (optional, helps tailor ideas)</label>
+          <input type="text" name="region" placeholder="e.g., rural Ohio, Brooklyn, suburban Texas">
+        </div>
+      </div>
+
+      <!-- Section 2: Skills & Experience -->
+      <div class="quiz-section" data-section="2">
+        <div class="section-label">Step 2 of 6</div>
+        <div class="section-question">What skills do you already have?</div>
+        <div class="section-hint">Be honest: think of things you've done for jobs, hobbies, or helping others.</div>
+        <div class="option-group">
+          <div>
+            <label>
+              <input type="radio" name="skills" value="craft" required>
+              <div class="option-text">
+                <strong>Craft & making (carpentry, sewing, food, art, etc.)</strong>
+                <span>You make things with your hands that people value</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="skills" value="service">
+              <div class="option-text">
+                <strong>Service & repair (fixing, cleaning, organizing, care)</strong>
+                <span>You solve problems for people or maintain their stuff</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="skills" value="knowledge">
+              <div class="option-text">
+                <strong>Knowledge & teaching (writing, coaching, design, consulting)</strong>
+                <span>You help people learn or make decisions</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="skills" value="sales">
+              <div class="option-text">
+                <strong>Sales & relationships (talking, connecting, persuading)</strong>
+                <span>You're good with people and moving things</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="skills" value="mixed">
+              <div class="option-text">
+                <strong>Mix of these / I'm not sure</strong>
+                <span>You do a bit of everything or haven't thought about it</span>
+              </div>
+            </label>
+          </div>
+        </div>
+        <div style="margin-top: 1.5rem;">
+          <label>Tell us 1–2 specific things you're good at (e.g., "building decks," "tutoring kids," "growing vegetables")</label>
+          <textarea name="skillsDetails" placeholder="Be specific..."></textarea>
+        </div>
+      </div>
+
+      <!-- Section 3: Capital & Resources -->
+      <div class="quiz-section" data-section="3">
+        <div class="section-label">Step 3 of 6</div>
+        <div class="section-question">How much can you invest upfront?</div>
+        <div class="section-hint">Think realistically: cash you could spend without going broke.</div>
+        <div class="option-group">
+          <div>
+            <label>
+              <input type="radio" name="capital" value="minimal" required>
+              <div class="option-text">
+                <strong>$0–$100 (bootstrapping from nothing)</strong>
+                <span>You need to start super lean: time, not money</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="capital" value="low">
+              <div class="option-text">
+                <strong>$100–$1,000 (a bit to work with)</strong>
+                <span>Covers basic tools, first materials, marketing</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="capital" value="moderate">
+              <div class="option-text">
+                <strong>$1,000–$10,000 (solid startup budget)</strong>
+                <span>Real equipment, first month of costs, learning</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="capital" value="substantial">
+              <div class="option-text">
+                <strong>$10,000+ (significant investment)</strong>
+                <span>Can build a real setup or take time to learn</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: Time & Commitment -->
+      <div class="quiz-section" data-section="4">
+        <div class="section-label">Step 4 of 6</div>
+        <div class="section-question">How much time can you commit?</div>
+        <div class="section-hint">Be realistic: include your other obligations.</div>
+        <div class="option-group">
+          <div>
+            <label>
+              <input type="radio" name="time" value="sidehustle" required>
+              <div class="option-text">
+                <strong>5–10 hours/week (side hustle)</strong>
+                <span>Evenings, weekends, while keeping main job</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="time" value="parttime">
+              <div class="option-text">
+                <strong>15–25 hours/week (serious part-time)</strong>
+                <span>Half your time, building something real</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="time" value="fulltime">
+              <div class="option-text">
+                <strong>35+ hours/week (full-time focus)</strong>
+                <span>This becomes your main work</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="time" value="flexible">
+              <div class="option-text">
+                <strong>Flexible / depends on season</strong>
+                <span>You can adjust based on what's happening</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 5: Risk & Growth -->
+      <div class="quiz-section" data-section="5">
+        <div class="section-label">Step 5 of 6</div>
+        <div class="section-question">What's your goal for growth?</div>
+        <div class="section-hint">Are you trying to build an empire or a sustainable income?</div>
+        <div class="option-group">
+          <div>
+            <label>
+              <input type="radio" name="growth" value="sustain" required>
+              <div class="option-text">
+                <strong>Sustainable solo (or small family)</strong>
+                <span>I want to do this for years without growing huge</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="growth" value="steady">
+              <div class="option-text">
+                <strong>Steady growth (small to medium business)</strong>
+                <span>Hire help, expand slowly, build over time</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="growth" value="aggressive">
+              <div class="option-text">
+                <strong>Aggressive growth (scale it up)</strong>
+                <span>I want this to become a real business quickly</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="growth" value="uncertain">
+              <div class="option-text">
+                <strong>I'm not sure / let's see where it goes</strong>
+                <span>Start small, adapt as things develop</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 6: What's special about you? -->
+      <div class="quiz-section" data-section="6">
+        <div class="section-label">Step 6 of 6</div>
+        <div class="section-question">What would make customers choose YOU?</div>
+        <div class="section-hint">Why would someone buy from you instead of a big box store or online?</div>
+        <div class="option-group">
+          <div>
+            <label>
+              <input type="radio" name="advantage" value="quality" required>
+              <div class="option-text">
+                <strong>Quality & durability</strong>
+                <span>I make things built to last, not disposable</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="advantage" value="local">
+              <div class="option-text">
+                <strong>Local & personal</strong>
+                <span>They know me, support local, want a relationship</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="advantage" value="custom">
+              <div class="option-text">
+                <strong>Custom & tailored</strong>
+                <span>I solve their specific problem, not one-size-fits-all</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="advantage" value="price">
+              <div class="option-text">
+                <strong>Price & value</strong>
+                <span>I can do it cheaper without cutting corners</span>
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="radio" name="advantage" value="unsure">
+              <div class="option-text">
+                <strong>I'm not sure yet</strong>
+                <span>I need to figure out what makes me different</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="buttons">
+        <button type="button" class="btn-prev" id="prevBtn" style="display: none;" onclick="changeSection(-1)">← Back</button>
+        <button type="button" class="btn-next" id="nextBtn" onclick="changeSection(1)">Next →</button>
+        <button type="submit" class="btn-submit" id="submitBtn" style="display: none;">Get My Report</button>
+      </div>
+    </form>
+
+    <!-- Loading State -->
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p><strong>Crafting your personalized Production Assessment...</strong></p>
+      <p style="font-size: 0.9rem; color: var(--gray); margin-top: 0.5rem;">This takes about 30 seconds.</p>
+    </div>
+
+    <!-- Report State -->
+    <div class="report" id="report">
+      <div class="report-header">
+        <h2 id="reportTitle">Your Production Assessment</h2>
+      </div>
+      <div class="report-content" id="reportContent"></div>
+      <div class="cta-buttons">
+        <button type="button" class="btn-retake" onclick="resetAssessment()">← Start Over</button>
+        <button type="button" class="btn-share" onclick="shareReport()">Share Report</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const TOTAL_SECTIONS = 6;
+let currentSection = 1;
+
+function updateProgress() {
+  const percent = (currentSection / TOTAL_SECTIONS) * 100;
+  document.getElementById('progressBar').style.width = percent + '%';
+}
+
+function showSection(n) {
+  document.querySelectorAll('.quiz-section').forEach(s => s.classList.remove('active'));
+  document.querySelector(`[data-section="${n}"]`).classList.add('active');
+
+  document.getElementById('prevBtn').style.display = n === 1 ? 'none' : 'block';
+  document.getElementById('nextBtn').style.display = n === TOTAL_SECTIONS ? 'none' : 'block';
+  document.getElementById('submitBtn').style.display = n === TOTAL_SECTIONS ? 'block' : 'none';
+
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function changeSection(delta) {
+  currentSection += delta;
+  if (currentSection < 1) currentSection = 1;
+  if (currentSection > TOTAL_SECTIONS) currentSection = TOTAL_SECTIONS;
+  showSection(currentSection);
+}
+
+document.getElementById('assessmentForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(e.target);
+  const answers = Object.fromEntries(formData);
+
+  document.getElementById('assessmentForm').style.display = 'none';
+  document.getElementById('loading').classList.add('active');
+
+  try {
+    const response = await fetch('/api/centrix-assessment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(answers)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.error || 'Failed to generate report');
+
+    document.getElementById('loading').classList.remove('active');
+    document.getElementById('reportContent').innerHTML = data.report;
+    document.getElementById('report').classList.add('active');
+  } catch (err) {
+    document.getElementById('loading').classList.remove('active');
+    document.getElementById('assessmentForm').style.display = 'block';
+    alert('Error generating report: ' + err.message);
+  }
+});
+
+function resetAssessment() {
+  document.getElementById('assessmentForm').reset();
+  document.getElementById('report').classList.remove('active');
+  document.getElementById('assessmentForm').style.display = 'block';
+  currentSection = 1;
+  showSection(1);
+}
+
+function shareReport() {
+  const reportText = document.getElementById('reportContent').innerText;
+  const url = window.location.href;
+  const text = `Check out my Production Assessment from Centrix:\n\n${reportText.substring(0, 200)}...\n\nTake the assessment: ${url}`;
+
+  if (navigator.share) {
+    navigator.share({ title: 'My Centrix Production Assessment', text });
+  } else {
+    alert('Copy this link and share it with someone: ' + url);
+  }
+}
+
+showSection(1);
+</script>
+
+</body>
+</html>

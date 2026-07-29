@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page{size:Letter;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Helvetica Neue',Arial,sans-serif;color:#1c2733;font-size:10pt;line-height:1.4}
+  .page{width:8.5in;height:11in;padding:0;position:relative;overflow:hidden}
+  /* HEADER */
+  .head{background:linear-gradient(160deg,#0e2439,#16324f);color:#fff;padding:0.42in 0.55in 0.36in}
+  .brandrow{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .mark{width:34px;height:34px;border-radius:50%;background:linear-gradient(90deg,#3a6ea5 50%,#a5433a 50%);border:2.5px solid #c9a227;position:relative;flex:none}
+  .mark::after{content:"";position:absolute;top:9px;left:9px;right:9px;bottom:9px;border-radius:50%;background:#c9a227}
+  .brand{font-size:22pt;font-weight:800;letter-spacing:.02em}
+  .tagline{color:#c9a227;font-size:9pt;font-weight:700;letter-spacing:.28em;text-transform:uppercase;margin-left:auto}
+  .head h1{font-size:17pt;font-weight:800;line-height:1.15;max-width:8.8in;margin-bottom:8px}
+  .head p{color:#cdd8e4;font-size:9.5pt;max-width:6.6in;font-family:Georgia,serif}
+  /* BODY */
+  .body{padding:0.32in 0.55in 0.2in}
+  .sec-label{font-size:8pt;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#c9a227;margin-bottom:8px}
+  h2{font-size:12.5pt;color:#0e2439;font-weight:800;margin-bottom:3px}
+  h2 .s{display:block;font-size:8.5pt;font-weight:400;color:#4a5b6d;font-family:Georgia,serif;margin-top:3px}
+  /* declines */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:12px 0 6px}
+  .stat{border:1px solid #dfe3e8;border-top:3px solid #c9a227;border-radius:6px;padding:11px 12px}
+  .stat .k{font-size:6.8pt;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#4a5b6d}
+  .stat .n{font-size:22pt;font-weight:800;color:#0e2439;line-height:1;margin:5px 0 3px}
+  .stat .n small{font-size:10pt;color:#c9a227}
+  .stat .t{font-weight:700;font-size:9pt;margin-bottom:3px;color:#1c2733}
+  .stat .d{font-size:7.6pt;color:#4a5b6d;line-height:1.35}
+  .framebar{background:#0e2439;color:#dbe4ee;border-radius:6px;padding:11px 14px;font-size:8.4pt;line-height:1.45;margin:6px 0 16px}
+  .framebar b{color:#e4c766}
+  /* two col */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:6px}
+  .plat h3{font-size:9pt;color:#0e2439;margin:9px 0 2px}
+  .plat p{font-size:8.2pt;color:#4a5b6d;line-height:1.35;margin-bottom:2px}
+  .plat .c{color:#8a6d12;font-weight:700}
+  .phil li{list-style:none;font-size:8.3pt;color:#4a5b6d;line-height:1.35;margin-bottom:6px;padding-left:14px;position:relative}
+  .phil li::before{content:"";position:absolute;left:0;top:5px;width:7px;height:7px;border-radius:50%;background:#c9a227}
+  .phil b{color:#0e2439}
+  /* redline */
+  .redline{margin-top:10px;background:#f7ecea;border:1px solid #d8a9a3;border-radius:6px;padding:9px 12px;font-size:8.2pt;color:#7a352e;line-height:1.4}
+  .redline b{color:#a5433a}
+  /* footer */
+  .foot{position:absolute;bottom:0;left:0;right:0;background:#16324f;color:#9fb2c6;padding:9px 0.55in;font-size:6.8pt;line-height:1.5;display:flex;justify-content:space-between;gap:16px}
+  .foot b{color:#fff}
+  .foot .srcs{max-width:5in}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="head">
+    <div class="brandrow">
+      <span class="mark"></span>
+      <span class="brand">CENTRIX</span>
+      <span class="tagline">Empower &middot; Produce &middot; Flourish</span>
+    </div>
+    <h1>Take the gold from both sides. Empower every citizen.</h1>
+    <p>On the questions that decide whether an American family can build a good life, things have gotten worse under both parties. We keep the best wisdom of left and right and aim all of it at one goal: a productive, self-reliant, flourishing people.</p>
+  </div>
+
+  <div class="body">
+    <div class="sec-label">The founding argument</div>
+    <h2>Three declines &mdash; worsening for ~100 years, no matter who was in charge<span class="s">These measures aren't a "left problem" or a "right problem." They fell under administrations of every party. Reversing them is why Centrix exists.</span></h2>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="k">1 &mdash; A roof of your own</div>
+        <div class="n">3&times;<small>&rarr;</small>5&times;</div>
+        <div class="t">Housing left families behind</div>
+        <div class="d">Homes cost ~3&times; median income in 1970, ~5&times; by 2024 &mdash; with median households spending ~42% of income on housing.</div>
+      </div>
+      <div class="stat">
+        <div class="k">2 &mdash; War on the middle class</div>
+        <div class="n">90%<small>/</small>33%</div>
+        <div class="t">Pay stopped tracking work</div>
+        <div class="d">1979&ndash;2025: productivity grew ~90% but typical pay only ~33% &mdash; ~3.5&times; faster. Kept pace would mean ~$16/hr more.</div>
+      </div>
+      <div class="stat">
+        <div class="k">3 &mdash; Cost of a life</div>
+        <div class="n">+1,200%</div>
+        <div class="t">Essentials outran wages</div>
+        <div class="d">Since 1980, tuition up ~1,200% and healthcare ~450% vs ~236% inflation. The dollar has lost 96%+ of its 1913 value.</div>
+      </div>
+    </div>
+
+    <div class="framebar">There are real, honest disagreements between left and right &mdash; and we respect them. But <b>none of these three declines belongs to one side.</b> The fight over who wins the White House has distracted us from the fight that matters: <b>actually empowering citizens to prosper.</b> Our whole platform is built to reverse these curves.</div>
+
+    <div class="two">
+      <div class="plat">
+        <div class="sec-label">The platform</div>
+        <h2>What we'd do</h2>
+        <h3>Wages &amp; the middle class</h3>
+        <p><span class="c">Centrix:</span> Reward production directly &mdash; tax relief and low-interest capital for citizens and small firms that make and sell real goods; apprenticeships; profit-sharing so pay tracks productivity again.</p>
+        <h3>Local manufacturing &amp; the producer economy</h3>
+        <p><span class="c">Centrix:</span> Open, published guides &mdash; inspired by self-reliant communities like the Amish &mdash; teaching anyone to pick a good, produce it, and sell it locally, backed by micro-grants and mentorship.</p>
+        <h3>Housing &amp; family</h3>
+        <p><span class="c">Centrix:</span> Pro-family, pro-ownership tools proven across many nations &mdash; tax relief that grows per child, 0%/low-interest first-home loans, a goal of affordable homeownership, plus reform to build more homes.</p>
+        <h3>Safety net &amp; work</h3>
+        <p><span class="c">Centrix:</span> Keep the net strong; phase support out gradually as income rises so it's a launch pad, not a trap. Every recipient gets the producer guides and start-up capital.</p>
+        <h3>Costs &amp; foreign policy</h3>
+        <p><span class="c">Centrix:</span> Attack healthcare/tuition costs with transparency and outcome-based funding; principled non-intervention abroad, investing instead in domestic resources, energy, and technology.</p>
+      </div>
+
+      <div class="phil">
+        <div class="sec-label">Our philosophy</div>
+        <h2>Keep the gold from each side</h2>
+        <ul>
+          <li><b>Producers, not dependents.</b> Dignity comes from making things of value.</li>
+          <li><b>Localism over centralization.</b> Prosperity built close to home is resilient.</li>
+          <li><b>A hand up, with an open door out.</b> A real net that rewards the climb back to work.</li>
+          <li><b>Home before empire.</b> Fund our own resources, technology, and people first.</li>
+          <li><b>Family as the foundation.</b> Make it easier to marry, have children, own a home.</li>
+          <li><b>Freedom of conscience.</b> Different communities may hold different values &mdash; sanctioned evenly, no side favored.</li>
+        </ul>
+        <div class="redline"><b>The one absolute limit:</b> no belief, community, or movement may support, threaten, or commit violence against fellow citizens &mdash; ever. Tolerance ends where violence begins.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div><b>Centrix</b> &mdash; an independent citizen movement, written under the pen name Saint Moses the Black. Not a ballot-registered political party; the policy ideas here are proposals offered for discussion.</div>
+    <div class="srcs"><b>Sources:</b> Visual Capitalist; Harvard JCHS; Zoocasa; Economic Policy Institute; Forbes Advisor; BLS.</div>
+  </div>
+</div>
+</body>
+</html>

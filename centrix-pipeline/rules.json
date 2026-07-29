@@ -1,0 +1,40 @@
+{
+  "_comment": "The transparency core of the Centrix Score. EVERYTHING that shapes a score lives here in plain sight. Edit keywords/weights and re-run; nothing is hidden in code.",
+
+  "weights": {
+    "1": 0.15, "2": 0.15, "3": 0.15, "4": 0.12,
+    "5": 0.11, "6": 0.11, "7": 0.11, "8": 0.10
+  },
+
+  "dimension_names": {
+    "1": "Wages & producer economy",
+    "2": "Housing & family formation",
+    "3": "Cost of essentials & sound money",
+    "4": "Safety net with an off-ramp",
+    "5": "Small-scale enterprise & anti-monopoly",
+    "6": "Domestic strength & non-intervention",
+    "7": "Localism & decentralization",
+    "8": "Freedom of conscience & pluralism"
+  },
+
+  "exclude_patterns": [
+    "motion to proceed", "previous question", "motion to table", "motion to adjourn",
+    "adjourn", "quorum", "approve the journal", "the journal",
+    "post office", "naming", "designating the facility", "designating the",
+    "nomination", "confirmation of", "to be secretary", "to be judge", "to be ambassador",
+    "commemorat", "anniversary", "recognizing the", "expressing support for the designation",
+    "national .* week", "national .* day", "national .* month",
+    "sense of congress regarding the importance", "suspend the rules and agree"
+  ],
+
+  "dimensions": {
+    "1": { "keywords": ["wage", "apprentic", "job training", "workforce", "overtime", "tipped", "tip income", "no tax on tips", "paycheck", "small business", "small manufactur", "local manufactur", "worker pay", "right to organize", "labor standard"] },
+    "2": { "keywords": ["housing", "homeown", "home buyer", "homebuy", "mortgage", "zoning", "rent ", "renter", "affordable home", "child tax credit", "family formation", "first-time home", "housing supply"] },
+    "3": { "keywords": ["tariff", "inflation", "cost of living", "prescription drug price", "drug pricing", "price transparency", "sound money", "purchasing power", "junk fee", "hidden fee", "grocery", "reliable power", "electric reliability", "power plant", "grid reliability", "energy cost"] },
+    "4": { "keywords": ["medicaid", "snap", "nutrition assistance", "food assistance", "safety net", "benefit cliff", "unemployment insurance", "welfare", "work requirement", "eitc", "earned income"] },
+    "5": { "keywords": ["antitrust", "monopol", "merger", "competition act", "anti-competitive", "pharmacy benefit manager", "middleman", "consolidation", "dominant firm", "big tech", "self-preferenc", "interchange fee", "credit card competition", "ticket"] },
+    "6": { "keywords": ["war powers", "armed forces", "hostilities", "troop", "military intervention", "foreign aid", "overseas", "critical mineral", "rare earth", "energy independence", "domestic production", "domestic energy", "self-sufficien", "permit", "permitting", "nepa", "environmental review", "mining", "national forest", "forest management", "wildfire", "timber", "pipeline"] },
+    "7": { "keywords": ["block grant", "return to the states", "states and local", "local government", "federalism", "decentraliz", "local control", "devolution", "unfunded mandate", "tenth amendment"] },
+    "8": { "keywords": ["free speech", "first amendment", "censor", "political violence", "religious freedom", "religious liberty", "viewpoint", "freedom of conscience", "peaceful protest", "protect speech", "freedom of assembly", "intimate image", "nonconsensual", "deepfake", "take it down"] }
+  }
+}
