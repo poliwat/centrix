@@ -4,15 +4,23 @@
  */
 
 export async function onRequest(context) {
-  const url = new URL(context.request.url);
+  try {
+    const url = new URL(context.request.url);
 
-  // Route /api/assessment to assessment handler
-  if (url.pathname === '/api/assessment') {
-    return handleAssessment(context);
+    // Route /api/assessment to assessment handler
+    if (url.pathname === '/api/assessment') {
+      return await handleAssessment(context);
+    }
+
+    // For all other requests, pass through to Pages
+    return await context.next();
+  } catch (err) {
+    console.error('Middleware error:', err);
+    return new Response(JSON.stringify({ error: err.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
-
-  // Let other requests pass through
-  return context.next();
 }
 
 async function handleAssessment(context) {
