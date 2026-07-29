@@ -105,12 +105,23 @@ async function callClaude(apiKey, prompt) {
     }),
   });
 
+  const responseText = await response.text();
+
   if (!response.ok) {
-    throw new Error(`Claude API error: ${response.status}`);
+    console.error('Claude API error response:', responseText);
+    throw new Error(`Claude API error ${response.status}: ${responseText.slice(0, 200)}`);
   }
 
-  const data = await response.json();
-  return data.content[0].text;
+  try {
+    const data = JSON.parse(responseText);
+    if (!data.content || !data.content[0] || !data.content[0].text) {
+      throw new Error('Invalid response structure from Claude API');
+    }
+    return data.content[0].text;
+  } catch (parseErr) {
+    console.error('Failed to parse Claude response:', responseText);
+    throw new Error('Failed to parse Claude API response');
+  }
 }
 
 function jsonResponse(data, status = 200) {
