@@ -162,6 +162,20 @@
   .redline b{color:#f0b7b1}
 
   /* CTA */
+  /* MINI CHARTS (truncated previews of data.html) */
+  .stat-chart{display:block;margin:4px 0 16px;text-decoration:none;border-radius:6px;transition:opacity .18s ease}
+  .stat-chart:hover{opacity:.82}
+  .stat-chart svg{width:100%;height:auto;display:block;overflow:visible}
+  .stat-chart .ax{stroke:#d8d3c6;stroke-width:1}
+  .stat-chart .gl{stroke:#e6e2d8;stroke-width:1}
+  .stat-chart .xl{font-family:'Helvetica Neue',Arial,sans-serif;font-size:9.5px;fill:#8895a3}
+  .stat-chart .bl{font-family:'Helvetica Neue',Arial,sans-serif;font-size:9.5px;fill:#8895a3;text-anchor:middle}
+  .stat-chart .bv{font-family:'Helvetica Neue',Arial,sans-serif;font-size:9.5px;font-weight:700;fill:var(--navy);text-anchor:middle}
+  .stat-chart .endl{font-family:'Helvetica Neue',Arial,sans-serif;font-size:10.5px;font-weight:700;text-anchor:end}
+  .stat-chart .key{font-family:'Helvetica Neue',Arial,sans-serif;font-size:9.5px;fill:var(--slate)}
+  .stat-chart figcaption{font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#8895a3;margin-top:7px;display:flex;justify-content:space-between;gap:8px}
+  .stat-chart figcaption .more{color:var(--navy-2);font-weight:700;white-space:nowrap}
+
   /* LOCAL ECONOMY */
   .local{background:var(--white)}
   .local-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:42px}
@@ -312,6 +326,29 @@
         <div class="kicker">Decline No. 1 — A roof of your own</div>
         <div class="stat-num">3&times; <small>&rarr;</small> 5&times;</div>
         <h3>Housing left working families behind</h3>
+
+        <!-- Mini chart. Data mirrors chart c1 in data.html — update both together. -->
+        <a class="stat-chart" href="data.html#housing" aria-label="Home price to income ratio, 1970 to 2024. See full chart.">
+          <figure style="margin:0">
+            <svg viewBox="0 0 300 118" role="img" aria-hidden="true">
+              <line class="gl" x1="12" y1="14" x2="288" y2="14"/>
+              <line class="gl" x1="12" y1="50" x2="288" y2="50"/>
+              <line class="ax" x1="12" y1="86" x2="288" y2="86"/>
+              <path d="M12.0,74.9 L58.0,66.6 L104.0,50.0 L150.0,25.1 L196.0,36.2 L242.0,27.8 L288.0,22.3 L288,86 L12,86 Z"
+                    fill="rgba(14,36,57,.10)"/>
+              <line x1="12" y1="80.5" x2="288" y2="80.5" stroke="#c9a227" stroke-width="1.5" stroke-dasharray="5,4"/>
+              <text class="key" x="12" y="78">affordable norm ~3&#215;</text>
+              <path d="M12.0,74.9 L58.0,66.6 L104.0,50.0 L150.0,25.1 L196.0,36.2 L242.0,27.8 L288.0,22.3"
+                    fill="none" stroke="#0e2439" stroke-width="2.6" stroke-linejoin="round"/>
+              <circle cx="288" cy="22.3" r="3.6" fill="#c9a227" stroke="#0e2439" stroke-width="1.5"/>
+              <text class="endl" x="285" y="16" fill="#0e2439">5.1&#215;</text>
+              <text class="xl" x="12" y="100">1970</text>
+              <text class="xl" x="288" y="100" text-anchor="end">2024</text>
+            </svg>
+            <figcaption><span>Home price &divide; median income</span><span class="more">Full chart &rarr;</span></figcaption>
+          </figure>
+        </a>
+
         <p>A typical new home cost about <b>3&times; median income</b> around 1970. By 2024 the median home price reached roughly <b>5&times;</b> income — and a median-earning household would spend <b>~41.8%</b> of income on the median home, far above the 30% affordability line.</p>
         <p class="src">Sources: Visual Capitalist; Harvard JCHS; Zoocasa.</p>
       </div>
@@ -319,6 +356,36 @@
         <div class="kicker">Decline No. 2 — The war on the middle class</div>
         <div class="stat-num">90% <small>vs</small> 33%</div>
         <h3>Pay stopped tracking the work</h3>
+
+        <!-- Mini chart. Data mirrors chart c2 in data.html — update both together. -->
+        <a class="stat-chart" href="data.html#pay" aria-label="Productivity versus typical worker pay since 1979. See full chart.">
+          <figure style="margin:0">
+            <svg viewBox="0 0 300 118" role="img" aria-hidden="true">
+              <line class="gl" x1="12" y1="14" x2="288" y2="14"/>
+              <line class="gl" x1="12" y1="50" x2="288" y2="50"/>
+              <line class="ax" x1="12" y1="86" x2="288" y2="86"/>
+              <path d="M12.0,86.0 L67.2,67.1 L122.4,51.9 L177.6,36.7 L232.8,23.9 L288.0,17.8 L288,86 L12,86 Z"
+                    fill="rgba(165,67,58,.10)"/>
+              <path d="M12.0,86.0 L67.2,79.9 L122.4,74.6 L177.6,69.3 L232.8,64.0 L288.0,61.0 L288,86 L12,86 Z"
+                    fill="rgba(58,110,165,.12)"/>
+              <path d="M12.0,86.0 L67.2,67.1 L122.4,51.9 L177.6,36.7 L232.8,23.9 L288.0,17.8"
+                    fill="none" stroke="#a5433a" stroke-width="2.6" stroke-linejoin="round"/>
+              <path d="M12.0,86.0 L67.2,79.9 L122.4,74.6 L177.6,69.3 L232.8,64.0 L288.0,61.0"
+                    fill="none" stroke="#3a6ea5" stroke-width="2.6" stroke-linejoin="round"
+                    stroke-dasharray="6,3"/>
+              <circle cx="288" cy="17.8" r="3.4" fill="#a5433a"/>
+              <circle cx="288" cy="61" r="3.4" fill="#3a6ea5"/>
+              <text class="endl" x="284" y="15" fill="#a5433a">+90%</text>
+              <text class="endl" x="284" y="58" fill="#3a6ea5">+33%</text>
+              <text class="key" x="12" y="26" fill="#a5433a">productivity</text>
+              <text class="key" x="12" y="72" fill="#3a6ea5">pay</text>
+              <text class="xl" x="12" y="100">1979</text>
+              <text class="xl" x="288" y="100" text-anchor="end">2025</text>
+            </svg>
+            <figcaption><span>Cumulative growth since 1979</span><span class="more">Full chart &rarr;</span></figcaption>
+          </figure>
+        </a>
+
         <p>From 1979–2025, worker productivity grew about <b>90%</b> while typical worker pay grew just <b>33%</b> — productivity rose roughly <b>3.5&times;</b> as fast as pay. Had pay kept pace, the typical worker would earn about <b>$16/hour more</b> today.</p>
         <p class="src">Source: Economic Policy Institute (Productivity–Pay Gap).</p>
       </div>
@@ -326,6 +393,31 @@
         <div class="kicker">Decline No. 3 — The cost of building a life</div>
         <div class="stat-num">+1,200%</div>
         <h3>Essentials outran wages and inflation</h3>
+
+        <!-- Mini chart. Data mirrors chart c3 in data.html — update both together. -->
+        <a class="stat-chart" href="data.html#costs" aria-label="Price growth since 1980 by category. See full chart.">
+          <figure style="margin:0">
+            <svg viewBox="0 0 300 118" role="img" aria-hidden="true">
+              <line class="gl" x1="12" y1="19.5" x2="288" y2="19.5"/>
+              <line class="gl" x1="12" y1="52" x2="288" y2="52"/>
+              <line class="ax" x1="12" y1="86" x2="288" y2="86"/>
+              <rect x="12" y="19.5" width="44" height="66.5" rx="3" fill="#a5433a"/>
+              <text class="bv" x="34" y="15.5">+1,200%</text>
+              <text class="bl" x="34" y="100">Tuition</text>
+              <rect x="89.3" y="61.1" width="44" height="24.9" rx="3" fill="#c07a35"/>
+              <text class="bv" x="111.3" y="57.1">+450%</text>
+              <text class="bl" x="111.3" y="100">Health</text>
+              <rect x="166.7" y="65" width="44" height="21" rx="3" fill="#3a6ea5"/>
+              <text class="bv" x="188.7" y="61">+380%</text>
+              <text class="bl" x="188.7" y="100">Housing</text>
+              <rect x="244" y="72.9" width="44" height="13.1" rx="3" fill="#4a5b6d"/>
+              <text class="bv" x="266" y="68.9">+236%</text>
+              <text class="bl" x="266" y="100">CPI</text>
+            </svg>
+            <figcaption><span>Price growth since 1980</span><span class="more">Full chart &rarr;</span></figcaption>
+          </figure>
+        </a>
+
         <p>Since 1980, college tuition is up about <b>1,200%</b> and healthcare about <b>450%</b>, while overall consumer prices rose about <b>236%</b>. The dollar has lost over <b>96%</b> of its 1913 purchasing power. The path to the middle class keeps getting more expensive.</p>
         <p class="src">Sources: Forbes Advisor; BLS via ihatecollege; Visual Capitalist.</p>
       </div>
