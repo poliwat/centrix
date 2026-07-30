@@ -228,6 +228,17 @@
     .assess .steps{gap:22px}
   }
 
+  /* SUBSTACK SIGNUP */
+  .substack-embed{max-width:480px;margin:28px auto 0;background:#fff;border-radius:10px;
+    border:1px solid rgba(14,36,57,.15);overflow:hidden;box-shadow:0 6px 18px rgba(14,36,57,.08)}
+  .substack-embed iframe{width:100%;height:150px;border:0;display:block;background:#fff}
+  .help-ways{max-width:560px;margin:30px auto 0;text-align:left;
+    background:rgba(255,255,255,.45);border-radius:10px;padding:22px 26px}
+  .help-ways .hw-head{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:12px}
+  .help-ways ul{margin:0 0 0 20px;font-size:15px;color:var(--navy)}
+  .help-ways li{margin-bottom:7px;opacity:.85}
+  .help-ways .hw-foot{margin-top:14px;font-size:14px;font-style:italic;opacity:.75}
+
   .cta-band{background:var(--gold);color:var(--navy);text-align:center}
   .cta-band h2{color:var(--navy)}
   .cta-band .btn-navy{background:var(--navy);color:#fff}
@@ -768,40 +779,30 @@
   <div class="wrap">
     <div class="eyebrow" style="color:var(--navy)">Get involved</div>
     <h2>Empower. Produce. Flourish.</h2>
-    <p style="max-width:60ch;margin:10px auto 0;font-size:18px">Add your name, join the conversation, and help build the movement. Two things happen here: you get the ideas in your inbox, and you find the people building alongside you.</p>
-    <div class="join-links">
-      <a class="btn btn-navy" href="#" data-link="discord">Join the discussion on Discord</a>
-      <a class="btn btn-outline" href="#" data-link="substack">Read &amp; subscribe on Substack</a>
+    <p style="max-width:60ch;margin:10px auto 0;font-size:18px">New writing lands in your inbox — the ideas, the local-production guides as they're written, and what people are actually building. No spam, unsubscribe any time.</p>
+
+    <!-- Substack embed. Replace YOURNAME below with your Substack subdomain. -->
+    <div class="substack-embed">
+      <iframe src="https://saintmosestheblack.substack.com/embed"
+              title="Subscribe to Centrix on Substack"
+              loading="lazy" scrolling="no"></iframe>
     </div>
-    <form class="volunteer" id="volunteerForm">
-      <div class="v-row">
-        <label>Full name<input type="text" name="name" placeholder="Jane Q. Citizen" required></label>
-        <label>Email<input type="email" name="email" placeholder="you@email.com" required></label>
-        <label>ZIP code<input type="text" name="zip" placeholder="00000" pattern="[0-9]{5}" maxlength="5"></label>
-      </div>
-      <fieldset class="v-help">
-        <legend>I'd like to help by&hellip;</legend>
-        <label class="chk"><input type="checkbox" name="help" value="discuss"> Discussing &amp; sharing the ideas</label>
-        <label class="chk"><input type="checkbox" name="help" value="manuals"> Writing local-production manuals</label>
-        <label class="chk"><input type="checkbox" name="help" value="volunteer"> Volunteering locally</label>
-        <label class="chk"><input type="checkbox" name="help" value="chapter"> Starting a local chapter</label>
-        <label class="chk"><input type="checkbox" name="help" value="skills"> Offering a skill (design, research, legal…)</label>
-      </fieldset>
-      <label class="v-msg">Anything else? <span>(optional)</span><textarea name="message" rows="3" placeholder="What good could you help people learn to produce? Ideas, questions, skills..."></textarea></label>
-      <button class="btn btn-navy" type="submit">Count me in</button>
-      <p class="v-thanks" id="vThanks" hidden>Welcome to the movement. Check your inbox — and come say hello in the community.</p>
-    </form>
-    <p class="v-note">Setup note: the Discord/Substack buttons and this form are placeholders until you connect them. Point the form at <a href="https://formspree.io" target="_blank" rel="noopener">Formspree</a> (or your Substack embed) and drop your real invite links into the two buttons — full steps are in the README and LAUNCH-PLAN.</p>
+
+    <div class="help-ways">
+      <p class="hw-head">Once you're subscribed, hit reply on the welcome email and tell me which of these sounds like you:</p>
+      <ul>
+        <li>Discussing &amp; sharing the ideas</li>
+        <li>Writing local-production manuals</li>
+        <li>Volunteering locally</li>
+        <li>Starting a local chapter</li>
+        <li>Offering a skill — design, research, legal, trades</li>
+      </ul>
+      <p class="hw-foot">Every reply gets read. That's the whole system.</p>
+    </div>
   </div>
 </section>
 
 <script>
-  document.getElementById('volunteerForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    this.querySelectorAll('input,textarea,button,fieldset').forEach(function(el){ el.style.display='none'; });
-    document.getElementById('vThanks').hidden = false;
-    document.getElementById('vThanks').style.display = 'block';
-  });
 </script>
 
 <!-- FOOTER -->
