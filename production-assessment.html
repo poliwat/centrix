@@ -346,8 +346,21 @@
           </div>
         </div>
         <div style="margin-top: 1.5rem;">
-          <label>What state/region? (optional, helps tailor ideas)</label>
-          <input type="text" name="region" placeholder="e.g., rural Ohio, Brooklyn, suburban Texas">
+          <label style="display:block; border:none; padding:0; cursor:default;">
+            <strong style="display:block; margin-bottom:0.4rem;">Your ZIP code</strong>
+            <span style="display:block; font-size:0.85rem; color:var(--gray); margin-bottom:0.6rem;">
+              We use this to pull real Census data on which businesses your area is
+              missing. Nothing is stored.
+            </span>
+            <input type="text" name="zip" inputmode="numeric" pattern="[0-9]{5}(-[0-9]{4})?"
+                   maxlength="10" placeholder="e.g., 44011" required>
+          </label>
+        </div>
+        <div style="margin-top: 1.5rem;">
+          <label style="display:block; border:none; padding:0; cursor:default;">
+            <strong style="display:block; margin-bottom:0.4rem;">Anything else about your area? (optional)</strong>
+            <input type="text" name="region" placeholder="e.g., tourist town, farming county, near a mill closure">
+          </label>
         </div>
       </div>
 
@@ -609,8 +622,11 @@
     <!-- Loading State -->
     <div class="loading" id="loading">
       <div class="spinner"></div>
-      <p><strong>Crafting your personalized Production Assessment...</strong></p>
-      <p style="font-size: 0.9rem; color: var(--gray); margin-top: 0.5rem;">This takes about 30 seconds.</p>
+      <p><strong>Analyzing your local economy...</strong></p>
+      <p style="font-size: 0.9rem; color: var(--gray); margin-top: 0.5rem;">
+        Pulling Census business data for your ZIP, comparing it against national
+        rates, then writing your report. This takes 30–60 seconds.
+      </p>
     </div>
 
     <!-- Report State -->
@@ -619,6 +635,9 @@
         <h2 id="reportTitle">Your Production Assessment</h2>
       </div>
       <div class="report-content" id="reportContent"></div>
+      <div id="sourcesNote" style="display:none; margin-top:2rem; padding:1rem 1.25rem;
+           background:#f7f9fc; border-left:3px solid var(--gold); border-radius:4px;
+           font-size:0.85rem; color:var(--gray); line-height:1.6;"></div>
       <div class="cta-buttons">
         <button type="button" class="btn-retake" onclick="resetAssessment()">← Start Over</button>
         <button type="button" class="btn-share" onclick="shareReport()">Share Report</button>
@@ -677,6 +696,7 @@ document.getElementById('assessmentForm').addEventListener('submit', async (e) =
 
     document.getElementById('loading').classList.remove('active');
     document.getElementById('reportContent').innerHTML = data.report;
+    renderSources(data);
     document.getElementById('report').classList.add('active');
   } catch (err) {
     document.getElementById('loading').classList.remove('active');
@@ -685,9 +705,43 @@ document.getElementById('assessmentForm').addEventListener('submit', async (e) =
   }
 });
 
+function renderSources(data) {
+  const el = document.getElementById('sourcesNote');
+  if (!el) return;
+
+  if (data.local) {
+    const s = data.local.sources;
+    el.innerHTML =
+      '<strong style="color:var(--navy);">How this was calculated</strong><br>' +
+      'Establishment counts for <strong>' + escapeHtml(data.local.place) + '</strong> ' +
+      '(population ' + data.local.population.toLocaleString() + ') compared against ' +
+      'national rates per 10,000 residents.<br><br>' +
+      'Sources: ' + escapeHtml(s.establishments) + '; ' + escapeHtml(s.population) +
+      '; business listings: ' + escapeHtml(s.businesses) + '.<br><br>' +
+      'Census counts only businesses with paid employees, so solo operators are not ' +
+      'included — verify any gap locally before committing money. ' +
+      '<a href="/methodology.html" style="color:var(--navy);">Full methodology</a>';
+  } else {
+    el.innerHTML =
+      '<strong style="color:var(--navy);">Note</strong><br>' +
+      'Local Census data could not be loaded' +
+      (data.localError ? ' (' + escapeHtml(data.localError) + ')' : '') +
+      ', so this report is based on your described community type rather than ' +
+      'verified local figures. <a href="/methodology.html" style="color:var(--navy);">Methodology</a>';
+  }
+  el.style.display = 'block';
+}
+
+function escapeHtml(str) {
+  return String(str == null ? '' : str).replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[c]);
+}
+
 function resetAssessment() {
   document.getElementById('assessmentForm').reset();
   document.getElementById('report').classList.remove('active');
+  document.getElementById('sourcesNote').style.display = 'none';
   document.getElementById('assessmentForm').style.display = 'block';
   currentSection = 1;
   showSection(1);

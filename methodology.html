@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Production Assessment Methodology — Centrix</title>
+  <style>
+    :root {
+      --navy: #0e2439;
+      --light-navy: #16324f;
+      --gold: #c9a227;
+      --gray: #4a5b6d;
+      --light-gray: #dfe3e8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      color: var(--navy);
+      background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 100%);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(14, 36, 57, 0.1);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(160deg, var(--navy) 0%, var(--light-navy) 100%);
+      color: white;
+      padding: 3rem 2rem 2rem;
+    }
+    .header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .header p { color: #cdd8e4; }
+    .content { padding: 2rem; }
+    h2 {
+      font-size: 1.3rem;
+      margin: 2.5rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gold);
+    }
+    h2:first-child { margin-top: 0; }
+    h3 { font-size: 1.05rem; margin: 1.5rem 0 0.5rem; }
+    p, li { margin-bottom: 0.9rem; }
+    ul, ol { margin-left: 1.5rem; }
+    code {
+      background: #f2f5f9;
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+    .formula {
+      background: #f7f9fc;
+      border-left: 3px solid var(--gold);
+      padding: 1.25rem;
+      margin: 1.25rem 0;
+      font-family: 'SF Mono', Menlo, monospace;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      overflow-x: auto;
+    }
+    .caveat {
+      background: #fdf9ed;
+      border-left: 3px solid var(--gold);
+      padding: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.25rem 0;
+      font-size: 0.9rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.6rem 0.5rem;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    th { color: var(--gold); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.08em; }
+    a { color: var(--light-navy); }
+    .back { display: inline-block; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--light-gray); }
+    .muted { color: var(--gray); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>Production Assessment Methodology</h1>
+    <p>How Centrix identifies what your local economy is missing — and what the method cannot tell you.</p>
+  </div>
+
+  <div class="content">
+
+    <h2>The idea being measured</h2>
+    <p>
+      When a community has fewer businesses in a category than the country does on a
+      per-person basis, residents are usually still buying that thing. They are just
+      buying it somewhere else — a chain a few towns over, or online. The purchase
+      still happens; the margin leaves. Economists call this <strong>economic
+      leakage</strong>.
+    </p>
+    <p>
+      Leakage is an opportunity. It marks demand that already exists locally and is
+      currently being satisfied by someone who does not live there. That is a very
+      different starting position from inventing demand from scratch.
+    </p>
+
+    <h2>The calculation</h2>
+    <p>
+      For each business category we compare local establishment density against the
+      national rate:
+    </p>
+
+    <div class="formula">
+local density   = local establishments ÷ local population × 10,000<br>
+national density = national establishments ÷ national population × 10,000<br><br>
+<strong>gap ratio = local density ÷ national density</strong>
+    </div>
+
+    <p>A ratio below 1 means the area has proportionally fewer such businesses than the nation.</p>
+
+    <table>
+      <tr><th>Gap ratio</th><th>Classification</th><th>Interpretation</th></tr>
+      <tr><td>below 0.6</td><td>Under-served</td><td>Notably fewer than the national norm — likely leakage</td></tr>
+      <tr><td>0.6 – 1.4</td><td>Near national norm</td><td>Roughly typical provision</td></tr>
+      <tr><td>above 1.4</td><td>Saturated</td><td>More than typical — entering means taking share</td></tr>
+    </table>
+
+    <p>
+      We also report <strong>implied missing establishments</strong>: how many more
+      businesses the area would contain if it matched the national rate. This converts
+      an abstract ratio into a count.
+    </p>
+
+    <div class="formula">
+implied missing = round(national density × local population ÷ 10,000) − local establishments
+    </div>
+
+    <h3>Worked example</h3>
+    <p class="muted">
+      A ZIP with 25,000 residents has 3 food-and-beverage retailers. Local density is
+      1.20 per 10,000. If the national density is 1.93 per 10,000, the gap ratio is
+      0.62 — under-served — and matching the national rate would mean about 2 more
+      such businesses.
+    </p>
+
+    <h2>Chain versus independent</h2>
+    <p>
+      Where OpenStreetMap coverage allows, we also count how many nearby businesses
+      carry a recognized brand or corporate operator tag. A high chain share alongside
+      an under-served category is the clearest signal that local demand is being met
+      by firms headquartered elsewhere.
+    </p>
+    <p class="muted">
+      Search radius scales with community type: roughly 3 km urban, 6 km suburban,
+      12 km rural, 20 km remote — because a rural household's realistic shopping
+      radius is not a city block.
+    </p>
+
+    <h2>Data sources</h2>
+    <table>
+      <tr><th>Data</th><th>Source</th><th>Vintage</th></tr>
+      <tr><td>Establishment counts by industry</td><td>US Census County Business Patterns, ZIP level</td><td>2022</td></tr>
+      <tr><td>Population, median household income</td><td>US Census ACS 5-Year, ZCTA level</td><td>2022</td></tr>
+      <tr><td>Named local businesses, chain tags</td><td>OpenStreetMap via Overpass API</td><td>Continuously edited</td></tr>
+      <tr><td>ZIP to coordinates</td><td>Zippopotam.us</td><td>Current</td></tr>
+    </table>
+    <p>
+      Categories are evaluated at the 3-digit NAICS level — granular enough to be
+      actionable, coarse enough to survive Census disclosure suppression at ZIP scale.
+    </p>
+
+    <h2>What this method cannot tell you</h2>
+    <p>
+      These limitations are real and we would rather state them than have you discover
+      them after spending money.
+    </p>
+
+    <div class="caveat">
+      <h3>Solo operators are invisible</h3>
+      <p>
+        County Business Patterns counts only establishments <strong>with paid
+        employees</strong>. A one-person bakery, a weekend furniture maker, a
+        self-employed contractor — none appear. A category showing zero may already
+        have working competitors. This is the single most important caveat.
+      </p>
+    </div>
+
+    <div class="caveat">
+      <h3>People cross ZIP lines</h3>
+      <p>
+        A residential ZIP next to a commercial one will look under-served while its
+        residents shop five minutes away. Under-served means <em>worth verifying</em>,
+        not <em>unmet</em>.
+      </p>
+    </div>
+
+    <div class="caveat">
+      <h3>The data lags</h3>
+      <p>
+        CBP figures are from 2022. Businesses have opened and closed since. Treat the
+        analysis as a starting hypothesis about your area, not a current census of it.
+      </p>
+    </div>
+
+    <div class="caveat">
+      <h3>Per-capita demand is an assumption</h3>
+      <p>
+        The method assumes demand scales with resident population. That breaks in
+        tourist towns, college towns, agricultural areas, and commuter suburbs, where
+        the customer base is not the same as the population.
+      </p>
+    </div>
+
+    <div class="caveat">
+      <h3>Small numbers are noisy</h3>
+      <p>
+        In a low-population ZIP, one establishment either way swings the ratio hard.
+        Treat categories with very low counts as directional only.
+      </p>
+    </div>
+
+    <h2>How to verify a gap before you spend</h2>
+    <ol>
+      <li>Drive or walk the area and count what actually exists — including the solo operators Census misses.</li>
+      <li>Search Facebook Marketplace and local groups; informal businesses live there, not in official data.</li>
+      <li>Ask ten people where they currently buy it and what they dislike about that. If they name somewhere out of town, the leakage is real.</li>
+      <li>Check whether the gap has an obvious cause — zoning, licensing, a dominant supplier, or a business that already tried and failed.</li>
+      <li>Presell before you build. One paying customer beats any statistic on this page.</li>
+    </ol>
+
+    <h2>Reproducing this</h2>
+    <p>
+      Every figure comes from public APIs; nothing is proprietary. The calculation
+      lives in <code>_worker.js</code> in the Centrix repository, and the diagnostic
+      endpoint <code>/api/probe?zip=YOURZIP</code> returns the raw upstream responses
+      for any ZIP so you can check our arithmetic against the source data yourself.
+    </p>
+    <p class="muted">
+      If you find an error in this methodology, that is worth more to us than a
+      compliment. The whole point of publishing it is to be checkable.
+    </p>
+
+    <div class="back">
+      <a href="/production-assessment.html">← Take the Production Assessment</a>
+      &nbsp;·&nbsp;
+      <a href="/">Centrix home</a>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
