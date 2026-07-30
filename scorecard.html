@@ -21,6 +21,14 @@
   .brand .mark::after{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--gold)}
   nav.links a{color:#cfd8e2;text-decoration:none;margin-left:22px;font-size:14px;font-weight:600}
   nav.links a:hover{color:var(--gold-soft)}
+  .nav .wrap{flex-wrap:wrap;height:auto;min-height:66px;padding-top:8px;padding-bottom:8px}
+  nav.links{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:5px 0}
+  nav.links a.cta,nav.links a.here{color:#c9a227}
+  @media(max-width:760px){
+    nav.links{flex-wrap:nowrap;overflow-x:auto;width:100%;justify-content:flex-start;-webkit-overflow-scrolling:touch}
+    nav.links a{margin-left:0;margin-right:18px;white-space:nowrap}
+    nav.links::-webkit-scrollbar{display:none}
+  }
   .banner{background:var(--gold);color:var(--navy);text-align:center;font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;font-weight:700;padding:9px 16px;letter-spacing:.02em}
   .hero{background:linear-gradient(160deg,var(--navy),var(--navy-2));color:#eaf0f6;padding:56px 0 48px}
   .hero .eyebrow{text-transform:uppercase;letter-spacing:.2em;font-size:12px;font-weight:700;color:var(--gold-soft);margin-bottom:12px}
@@ -78,8 +86,18 @@
     <a class="brand" href="index.html"><span class="mark"></span>CENTRIX</a>
     <nav class="links">
       <a href="index.html">Home</a>
-      <a href="data.html">The Data</a>
+      <a href="index.html#declines">Three Declines</a>
+      <a href="index.html#mission">Mission</a>
+      <a href="index.html#philosophy">Philosophy</a>
+      <a href="principles.html">Principles</a>
+      <a href="index.html#platform">Platform</a>
+      <a href="data.html">Data</a>
+      <a class="here" href="scorecard.html">Scorecard</a>
+      <a href="methodology.html">Methodology</a>
+      <a href="index.html#leadership">Leadership</a>
+      <a href="index.html#faq">FAQ</a>
       <a href="index.html#join">Join</a>
+      <a class="cta" href="production-assessment.html">Start Producing &rarr;</a>
     </nav>
   </div>
 </header>

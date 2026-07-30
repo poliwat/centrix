@@ -62,7 +62,14 @@
   .brand .mark::after{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--gold)}
   nav.links a{color:#cfd8e2;text-decoration:none;margin-left:26px;font-size:14px;font-weight:600;letter-spacing:.02em}
   nav.links a:hover{color:var(--gold-soft)}
-  @media(max-width:760px){nav.links{display:none}}
+  .nav .wrap{flex-wrap:wrap;height:auto;min-height:66px;padding-top:8px;padding-bottom:8px}
+  nav.links{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:5px 0}
+  nav.links a.cta,nav.links a.here{color:#c9a227}
+  @media(max-width:760px){
+    nav.links{flex-wrap:nowrap;overflow-x:auto;width:100%;justify-content:flex-start;-webkit-overflow-scrolling:touch}
+    nav.links a{margin-left:0;margin-right:18px;white-space:nowrap}
+    nav.links::-webkit-scrollbar{display:none}
+  }
 
   /* HERO */
   .hero{
@@ -307,12 +314,13 @@
       <a href="#philosophy">Philosophy</a>
       <a href="principles.html">Principles</a>
       <a href="#platform">Platform</a>
-      <a href="data.html">The Data</a>
+      <a href="data.html">Data</a>
       <a href="scorecard.html">Scorecard</a>
-      <a href="production-assessment.html">Start Producing</a>
+      <a href="methodology.html">Methodology</a>
       <a href="#leadership">Leadership</a>
       <a href="#faq">FAQ</a>
       <a href="#join">Join</a>
+      <a class="cta" href="production-assessment.html">Start Producing &rarr;</a>
     </nav>
   </div>
 </header>

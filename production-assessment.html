@@ -20,6 +20,44 @@
       min-height: 100vh;
       padding: 2rem 1rem;
     }
+    /* SITE NAV — self-contained so it renders identically on every page */
+    .site-nav{
+      position:sticky;top:0;z-index:50;margin:-2rem -1rem 2rem;padding:0 1.25rem;
+      background:rgba(14,36,57,.97);backdrop-filter:blur(6px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .site-nav .nav-inner{
+      max-width:1080px;margin:0 auto;display:flex;align-items:center;
+      justify-content:space-between;gap:16px;min-height:66px;flex-wrap:wrap;padding:9px 0;
+    }
+    .site-nav .brand{
+      display:flex;align-items:center;gap:11px;color:#fff;font-weight:800;
+      font-size:20px;letter-spacing:.02em;text-decoration:none;flex:none;
+    }
+    .site-nav .brand .mark{
+      width:30px;height:30px;border-radius:50%;flex:none;position:relative;
+      background:conic-gradient(from 180deg,#3a6ea5 0 50%,#a5433a 50% 100%);
+      border:2px solid #c9a227;
+    }
+    .site-nav .brand .mark::after{content:"";position:absolute;inset:9px;border-radius:50%;background:#c9a227}
+    .site-nav .links{display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:flex-end}
+    .site-nav .links a{
+      color:#cfd8e2;text-decoration:none;font-size:14px;font-weight:600;
+      letter-spacing:.02em;white-space:nowrap;
+    }
+    .site-nav .links a:hover{color:#e4c766}
+    .site-nav .links a.here{color:#c9a227}
+    .site-nav .links a.cta{color:#c9a227}
+    @media(max-width:760px){
+      .site-nav{margin:-2rem -1rem 1.5rem;padding:0 1rem}
+      .site-nav .nav-inner{min-height:0;padding:11px 0}
+      .site-nav .links{
+        flex-wrap:nowrap;overflow-x:auto;width:100%;justify-content:flex-start;
+        gap:18px;padding-bottom:3px;-webkit-overflow-scrolling:touch;
+      }
+      .site-nav .links::-webkit-scrollbar{display:none}
+    }
+
     .container {
       max-width: 700px;
       margin: 0 auto;
@@ -289,6 +327,27 @@
   </style>
 </head>
 <body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html"><span class="mark"></span>CENTRIX</a>
+    <nav class="links">
+      <a href="index.html">Home</a>
+      <a href="index.html#declines">Three Declines</a>
+      <a href="index.html#mission">Mission</a>
+      <a href="index.html#philosophy">Philosophy</a>
+      <a href="principles.html">Principles</a>
+      <a href="index.html#platform">Platform</a>
+      <a href="data.html">Data</a>
+      <a href="scorecard.html">Scorecard</a>
+      <a href="methodology.html">Methodology</a>
+      <a href="index.html#leadership">Leadership</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="index.html#join">Join</a>
+      <a class="cta here" href="production-assessment.html">Start Producing</a>
+    </nav>
+  </div>
+</header>
 
 <div class="container">
   <div class="header">
