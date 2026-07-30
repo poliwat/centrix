@@ -60,8 +60,19 @@ export default {
       return handleAssessment(request, env);
     }
 
+    if (url.pathname === '/api/share') {
+      if (request.method === 'OPTIONS') return cors(new Response(null, { status: 204 }));
+      if (request.method !== 'POST') return json({ error: 'POST only' }, 405);
+      return handleShare(request, env);
+    }
+
     if (url.pathname === '/api/probe') {
       return handleProbe(url, env);
+    }
+
+    // Shared report permalinks: /r/<id>
+    if (url.pathname.startsWith('/r/')) {
+      return handleSharedReport(url.pathname.slice(3), env);
     }
 
     if (url.pathname === '/api/health') {
@@ -71,6 +82,7 @@ export default {
         hasAnthropicKey: Boolean(env.ANTHROPIC_API_KEY),
         hasCensusKey: Boolean(env.CENSUS_API_KEY),
         assetsBound: Boolean(env.ASSETS),
+        reportStoreBound: Boolean(env.REPORTS),
         model: MODEL,
         cbpYear: CBP_YEAR,
       });
@@ -105,14 +117,55 @@ async function handleAssessment(request, env) {
       }
     }
 
-    const report = await callClaude(
-      env.ANTHROPIC_API_KEY,
-      buildPrompt(answers, local)
-    );
+    const raw = await callClaude(env.ANTHROPIC_API_KEY, buildPrompt(answers, local));
 
-    return json({ report, local, localError });
+    // The prompt is partly built from free-text the visitor typed, so treat the
+    // model's HTML as untrusted before it is rendered or shared.
+    const report = sanitizeHtml(raw);
+
+    // Nothing is persisted here. A report is only stored if the visitor
+    // explicitly clicks Share, which calls /api/share.
+    return json({ report, local, localError, canShare: Boolean(env.REPORTS) });
   } catch (err) {
     return json({ error: err.message || 'Unknown error' }, 500);
+  }
+}
+
+/**
+ * Store a report so it can be shared. Called only when the visitor clicks
+ * Share — reports are never persisted otherwise. Stores the rendered HTML and
+ * a place label; never the quiz answers.
+ */
+async function handleShare(request, env) {
+  if (!env.REPORTS) {
+    return json({ error: 'Report sharing is not configured on this site.' }, 503);
+  }
+
+  try {
+    const { report, place } = await request.json();
+
+    if (typeof report !== 'string' || report.length < 40) {
+      return json({ error: 'Nothing to share.' }, 400);
+    }
+    // Cap the payload so this endpoint cannot be used as general file hosting.
+    if (report.length > 60000) {
+      return json({ error: 'Report too large to share.' }, 413);
+    }
+
+    const shareId = makeShareId();
+    await env.REPORTS.put(
+      shareId,
+      JSON.stringify({
+        html: sanitizeHtml(report),
+        place: typeof place === 'string' ? place.slice(0, 120) : null,
+        created: new Date().toISOString(),
+      }),
+      { expirationTtl: 60 * 60 * 24 * 90 }
+    );
+
+    return json({ shareId, expiresInDays: 90 });
+  } catch (err) {
+    return json({ error: err.message || 'Could not save report.' }, 500);
   }
 }
 
@@ -452,6 +505,166 @@ what the data proves.
 
 OUTPUT: HTML only — <h3> headings, <p> paragraphs, <ul>/<li> lists, <strong> for key
 figures. No markdown, no code fences, no preamble. Around 1100-1400 words.`;
+}
+
+/* ------------------------------------------------------ sharing / safety */
+
+/**
+ * The report is model output shaped by visitor-supplied free text, and shared
+ * links are opened by third parties — so this is a stored-XSS surface. Our
+ * prompt only ever needs formatting tags, so allowlist those, drop every other
+ * tag, and strip all attributes (which removes onclick, href, style wholesale).
+ */
+const ALLOWED_TAGS = new Set([
+  'h3', 'h4', 'p', 'ul', 'ol', 'li', 'strong', 'em', 'b', 'i', 'br', 'blockquote',
+]);
+
+function sanitizeHtml(html) {
+  let out = String(html);
+
+  // Remove dangerous elements along with their contents.
+  out = out.replace(
+    /<(script|style|iframe|object|embed|svg|math|template|noscript)\b[\s\S]*?<\/\1\s*>/gi,
+    ''
+  );
+  // Unclosed variants of the same, plus comments.
+  out = out.replace(/<\/?(script|style|iframe|object|embed|svg|math|template|noscript)\b[^>]*>/gi, '');
+  out = out.replace(/<!--[\s\S]*?-->/g, '');
+
+  // Rewrite every surviving tag: keep allowlisted names, discard attributes.
+  out = out.replace(/<(\/?)([a-zA-Z][a-zA-Z0-9-]*)\b[^>]*>/g, (_m, slash, tag) => {
+    const t = tag.toLowerCase();
+    if (!ALLOWED_TAGS.has(t)) return '';
+    if (t === 'br') return '<br>';
+    return `<${slash}${t}>`;
+  });
+
+  return out.trim();
+}
+
+/** Short, unambiguous id. Excludes vowels and lookalikes (0/O, 1/I/l). */
+function makeShareId(length = 8) {
+  const alphabet = '23456789bcdfghjkmnpqrstvwxyz';
+  const bytes = new Uint8Array(length);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes, (b) => alphabet[b % alphabet.length]).join('');
+}
+
+async function handleSharedReport(id, env) {
+  if (!/^[a-z0-9]{4,32}$/.test(id)) {
+    return htmlPage('Not found', '<p>That link does not look valid.</p>', 404);
+  }
+  if (!env.REPORTS) {
+    return htmlPage(
+      'Sharing unavailable',
+      '<p>Report sharing is not configured on this site yet.</p>',
+      503
+    );
+  }
+
+  const stored = await env.REPORTS.get(id);
+  if (!stored) {
+    return htmlPage(
+      'Report not found',
+      `<p>This report has expired or the link is incorrect. Reports are kept for 90 days.</p>
+       <p><a href="/production-assessment.html">Take the assessment yourself &rarr;</a></p>`,
+      404
+    );
+  }
+
+  let data;
+  try {
+    data = JSON.parse(stored);
+  } catch {
+    return htmlPage('Report unreadable', '<p>This report could not be loaded.</p>', 500);
+  }
+
+  const place = data.place ? ` &middot; ${escapeHtml(data.place)}` : '';
+  const created = data.created
+    ? new Date(data.created).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
+    : null;
+
+  return htmlPage(
+    'A Centrix Production Assessment',
+    `<div class="meta">Generated ${created ? escapeHtml(created) : 'recently'}${place}</div>
+     ${sanitizeHtml(data.html)}
+     <div class="foot">
+       <p><strong>This is someone else's assessment.</strong> Yours would be different —
+       it is based on your own skills, capital, and local Census data.</p>
+       <p><a class="cta" href="/production-assessment.html">Take your own Production Assessment &rarr;</a></p>
+       <p class="fine"><a href="/methodology.html">How this is calculated</a> &middot;
+       <a href="/">About Centrix</a></p>
+     </div>`
+  );
+}
+
+function htmlPage(title, bodyHtml, status = 200) {
+  const doc = `<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${escapeHtml(title)} — Centrix</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--navy:#0e2439;--navy-2:#16324f;--gold:#c9a227;--slate:#4a5b6d;--line:#dfe3e8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Helvetica Neue',Arial,sans-serif;color:var(--navy);
+  background:linear-gradient(135deg,#f5f7fa 0%,#eef2f7 100%);min-height:100vh;
+  padding:2rem 1rem;line-height:1.7}
+.container{max-width:740px;margin:0 auto;background:#fff;border-radius:12px;
+  box-shadow:0 4px 20px rgba(14,36,57,.1);overflow:hidden}
+.header{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 100%);
+  color:#fff;padding:2.5rem 2rem}
+.header .brand{font-size:12px;font-weight:700;letter-spacing:.18em;
+  color:#e4c766;margin-bottom:.6rem}
+.header h1{font-size:1.7rem;font-weight:800}
+.content{padding:2rem}
+.meta{font-size:.85rem;color:var(--slate);padding-bottom:1.2rem;margin-bottom:1.6rem;
+  border-bottom:1px solid var(--line)}
+h3{font-size:1.15rem;margin:1.8rem 0 .7rem;padding-bottom:.4rem;
+  border-bottom:2px solid var(--gold)}
+p{margin-bottom:1rem}
+ul,ol{margin:0 0 1rem 1.5rem}
+li{margin-bottom:.5rem}
+.foot{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line);
+  font-size:.95rem;color:var(--slate)}
+.cta{display:inline-block;margin-top:.4rem;background:var(--gold);color:var(--navy);
+  padding:.8rem 1.3rem;border-radius:6px;font-weight:700;text-decoration:none}
+.fine{margin-top:1.2rem;font-size:.82rem}
+a{color:var(--navy-2)}
+</style></head><body>
+<div class="container">
+  <div class="header">
+    <div class="brand">CENTRIX</div>
+    <h1>${escapeHtml(title)}</h1>
+  </div>
+  <div class="content">${bodyHtml}</div>
+</div>
+</body></html>`;
+
+  return new Response(doc, {
+    status,
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+      // Defence in depth: even if something slipped past the sanitizer,
+      // inline scripts cannot execute here.
+      'Content-Security-Policy':
+        "default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'",
+      'Referrer-Policy': 'no-referrer',
+      'X-Content-Type-Options': 'nosniff',
+    },
+  });
+}
+
+function escapeHtml(str) {
+  return String(str == null ? '' : str).replace(
+    /[&<>"']/g,
+    (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]
+  );
 }
 
 /* --------------------------------------------------------------- Claude */

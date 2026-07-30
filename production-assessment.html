@@ -696,6 +696,10 @@ document.getElementById('assessmentForm').addEventListener('submit', async (e) =
 
     document.getElementById('loading').classList.remove('active');
     document.getElementById('reportContent').innerHTML = data.report;
+    reportHtml = data.report;
+    reportPlace = data.local ? data.local.place : null;
+    shareUrl = null;
+    document.querySelector('.btn-share').style.display = data.canShare ? '' : 'none';
     renderSources(data);
     document.getElementById('report').classList.add('active');
   } catch (err) {
@@ -720,7 +724,9 @@ function renderSources(data) {
       '; business listings: ' + escapeHtml(s.businesses) + '.<br><br>' +
       'Census counts only businesses with paid employees, so solo operators are not ' +
       'included — verify any gap locally before committing money. ' +
-      '<a href="/methodology.html" style="color:var(--navy);">Full methodology</a>';
+      '<a href="/methodology.html" style="color:var(--navy);">Full methodology</a>' +
+      '<br><br><em>This report is not saved anywhere. If you click Share, a copy is ' +
+      'stored for 90 days at a private link.</em>';
   } else {
     el.innerHTML =
       '<strong style="color:var(--navy);">Note</strong><br>' +
@@ -742,20 +748,67 @@ function resetAssessment() {
   document.getElementById('assessmentForm').reset();
   document.getElementById('report').classList.remove('active');
   document.getElementById('sourcesNote').style.display = 'none';
+  shareUrl = null;
+  reportHtml = null;
+  reportPlace = null;
   document.getElementById('assessmentForm').style.display = 'block';
   currentSection = 1;
   showSection(1);
 }
 
-function shareReport() {
-  const reportText = document.getElementById('reportContent').innerText;
-  const url = window.location.href;
-  const text = `Check out my Production Assessment from Centrix:\n\n${reportText.substring(0, 200)}...\n\nTake the assessment: ${url}`;
+let shareUrl = null;
+let reportHtml = null;
+let reportPlace = null;
 
+async function shareReport() {
+  const btn = document.querySelector('.btn-share');
+  const label = btn.textContent;
+
+  // Save on first click only — reports are not stored unless shared.
+  if (!shareUrl) {
+    if (!reportHtml) return;
+    btn.disabled = true;
+    btn.textContent = 'Creating link…';
+    try {
+      const res = await fetch('/api/share', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ report: reportHtml, place: reportPlace })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.shareId) throw new Error(data.error || 'Could not create link');
+      shareUrl = window.location.origin + '/r/' + data.shareId;
+    } catch (err) {
+      alert('Could not create a share link: ' + err.message);
+      return;
+    } finally {
+      btn.disabled = false;
+      btn.textContent = label;
+    }
+  }
+
+  // Native share sheet on mobile.
   if (navigator.share) {
-    navigator.share({ title: 'My Centrix Production Assessment', text });
-  } else {
-    alert('Copy this link and share it with someone: ' + url);
+    try {
+      await navigator.share({
+        title: 'My Centrix Production Assessment',
+        text: 'Here is what my local economy is missing, according to Census data:',
+        url: shareUrl
+      });
+      return;
+    } catch (err) {
+      if (err && err.name === 'AbortError') return; // user dismissed
+    }
+  }
+
+  // Otherwise copy the link.
+  try {
+    await navigator.clipboard.writeText(shareUrl);
+    const original = btn.textContent;
+    btn.textContent = 'Link copied ✓';
+    setTimeout(() => { btn.textContent = original; }, 2500);
+  } catch {
+    prompt('Copy this link to share your report:', shareUrl);
   }
 }
 

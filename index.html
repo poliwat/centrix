@@ -162,6 +162,32 @@
   .redline b{color:#f0b7b1}
 
   /* CTA */
+  /* LOCAL ECONOMY */
+  .local{background:var(--white)}
+  .local-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:42px}
+  .local-card{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:26px}
+  .local-card .lnum{font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+  .local-card h3{font-family:'Helvetica Neue',Arial,sans-serif;font-size:19px;color:var(--navy);margin-bottom:10px}
+  .local-card p{font-size:15px;color:var(--slate);margin-bottom:0}
+  .local .frame{background:var(--navy);color:#e8eef4;border-radius:8px;padding:28px 30px;margin-top:34px;font-size:17px;line-height:1.6}
+  .local .frame b{color:var(--gold-soft)}
+
+  /* ASSESSMENT CTA */
+  .assess{background:var(--navy);text-align:center}
+  .assess .eyebrow{color:var(--gold-soft)}
+  .assess h2{color:#fff}
+  .assess .lede{font-size:19px;color:#cdd8e4;max-width:62ch;margin:18px auto 0}
+  .assess .steps{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;margin:38px 0 34px;text-align:left}
+  .assess .step{max-width:240px}
+  .assess .step b{display:block;font-family:'Helvetica Neue',Arial,sans-serif;color:var(--gold-soft);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+  .assess .step span{font-size:15px;color:#cdd8e4}
+  .assess .fine{margin-top:22px;font-size:13px;color:#8fa3b8;font-family:'Helvetica Neue',Arial,sans-serif}
+  .assess .fine a{color:#cdd8e4}
+  @media (max-width:860px){
+    .local-grid{grid-template-columns:1fr}
+    .assess .steps{gap:22px}
+  }
+
   .cta-band{background:var(--gold);color:var(--navy);text-align:center}
   .cta-band h2{color:var(--navy)}
   .cta-band .btn-navy{background:var(--navy);color:#fff}
@@ -264,7 +290,7 @@
     <h1>Take the gold from both sides. Empower every citizen.</h1>
     <p class="lede">Centrix begins with an uncomfortable fact: on the questions that decide whether an American family can build a good life, things have gotten worse under Democrats <em>and</em> Republicans alike. We keep the best wisdom of the left and the right — and point all of it at one goal: a productive, self-reliant, flourishing people.</p>
     <div class="cta">
-      <a class="btn btn-gold" href="#join">Join the movement</a>
+      <a class="btn btn-gold" href="production-assessment.html">Find your opportunity &rarr;</a>
       <a class="btn btn-ghost" href="#declines">See what's gone wrong</a>
     </div>
     <div class="hero-spectrum">
@@ -309,6 +335,64 @@
       <p style="margin-bottom:0">There are real, honest disagreements between left and right — and Centrix respects them. But notice: <b>none of the three declines above is a "left problem" or a "right problem."</b> They worsened under both. That tells us the fight over who occupies the White House has distracted us from the fight that matters — <b>actually empowering citizens to prosper.</b> Our entire platform is built to reverse these three curves.</p>
     </div>
     <p style="margin-top:22px"><a href="data.html" style="font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;color:var(--navy-2);text-decoration:none">See the full data, with charts and sources &rarr;</a></p>
+  </div>
+</section>
+
+<!-- LOCAL ECONOMY -->
+<section class="local" id="local">
+  <div class="wrap">
+    <div class="eyebrow">Where Centrix starts</div>
+    <h2>Reversing those curves starts where you live<span class="sub">National politics has had a century to fix the three declines above and has not. So Centrix begins somewhere a citizen can actually act: the economy within driving distance of their own front door.</span></h2>
+
+    <div class="local-grid">
+      <div class="local-card">
+        <div class="lnum">The problem</div>
+        <h3>The money doesn't stay</h3>
+        <p>When the only place to buy something is a national chain or an online marketplace, the purchase still happens locally — but the margin leaves the moment the card clears. Dollars that could have paid a neighbour's wage become a line item in a distant quarterly report.</p>
+      </div>
+      <div class="local-card">
+        <div class="lnum">The waste</div>
+        <h3>The skills sit unused</h3>
+        <p>Meanwhile people who can build, grow, cook, fix, and make things work jobs well beneath their capability. The skill exists and the demand exists — nobody has connected the two, because nobody has looked at their own community as a market.</p>
+      </div>
+      <div class="local-card">
+        <div class="lnum">The opening</div>
+        <h3>The gap is measurable</h3>
+        <p>This is not a matter of opinion. You can count how many businesses of a given type your area has per resident, compare it to the national rate, and see precisely which needs are being served from outside — and therefore where a producer is genuinely needed.</p>
+      </div>
+    </div>
+
+    <div class="frame">
+      <p style="margin-bottom:0">Prosperity built close to home is resilient. It is the quiet lesson of communities like the Amish, who sustain durable local economies with low overhead, real skills, and reputations that take decades to build and seconds to lose. <b>Keeping money circulating inside a community is not nostalgia — it is the most reliable way ordinary people have ever built wealth.</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- ASSESSMENT CTA -->
+<section class="assess" id="assess">
+  <div class="wrap">
+    <div class="eyebrow">Start here</div>
+    <h2>What is your community missing?</h2>
+    <p class="lede">Answer six questions about your skills, your capital, and your ZIP code. We pull real US Census business data for your area, compare it against national rates, and show you which needs are currently being met from outside — and which ones you could meet.</p>
+
+    <div class="steps">
+      <div class="step">
+        <b>Step 1 &middot; Six questions</b>
+        <span>Your skills, time, capital, and goals. Two minutes, no signup, no email required.</span>
+      </div>
+      <div class="step">
+        <b>Step 2 &middot; Real data</b>
+        <span>Census establishment counts for your ZIP measured against the national rate, so the gaps are counted rather than guessed.</span>
+      </div>
+      <div class="step">
+        <b>Step 3 &middot; Your plan</b>
+        <span>Specific production ideas matched to your situation, and a 30-day roadmap that starts by verifying the gap is real.</span>
+      </div>
+    </div>
+
+    <a class="btn btn-gold" href="production-assessment.html">Take the Production Assessment &rarr;</a>
+
+    <p class="fine">Free &middot; nothing stored unless you choose to share your report &middot; <a href="methodology.html">read the methodology</a></p>
   </div>
 </section>
 
