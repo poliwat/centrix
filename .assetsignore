@@ -1,0 +1,15 @@
+.git
+.git/**
+.wrangler
+.wrangler/**
+*.py
+*.md
+*.log
+wrangler.toml
+_worker.js
+.assetsignore
+.gitignore
+vercel-backend
+vercel-backend/**
+functions
+functions/**

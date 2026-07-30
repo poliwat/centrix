@@ -1,0 +1,13 @@
+name = "centrix"
+main = "_worker.js"
+compatibility_date = "2025-07-01"
+compatibility_flags = ["nodejs_compat"]
+
+[observability]
+enabled = true
+
+# Static site files. `binding` is the critical part: without it,
+# env.ASSETS is undefined inside the Worker.
+[assets]
+directory = "."
+binding = "ASSETS"
