@@ -92,7 +92,7 @@ async function callClaude(apiKey, prompt) {
     },
     body: JSON.stringify({
       model: MODEL,
-      max_tokens: 2000,
+      max_tokens: 4000,
       messages: [{ role: 'user', content: prompt }],
     }),
   });
@@ -110,9 +110,24 @@ async function callClaude(apiKey, prompt) {
     throw new Error(`Claude API returned non-JSON: ${raw.slice(0, 200)}`);
   }
 
-  const text = data?.content?.[0]?.text;
-  if (!text) throw new Error('Claude API response had no text content.');
-  return text;
+  // Collect every text block. Do not assume content[0] is text — a model may
+  // emit thinking blocks or split the answer across several blocks.
+  const blocks = Array.isArray(data?.content) ? data.content : [];
+  const text = blocks
+    .filter((b) => b?.type === 'text' && typeof b.text === 'string')
+    .map((b) => b.text)
+    .join('\n')
+    .trim();
+
+  if (!text) {
+    const shape = blocks.map((b) => b?.type).join(', ') || 'none';
+    throw new Error(
+      `No text block in response. stop_reason=${data?.stop_reason}; block types=[${shape}]`
+    );
+  }
+
+  // Strip markdown code fences if the model wrapped the HTML in them.
+  return text.replace(/^\s*```(?:html)?\s*/i, '').replace(/\s*```\s*$/, '');
 }
 
 function json(data, status = 200) {
