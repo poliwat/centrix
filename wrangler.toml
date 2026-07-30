@@ -11,3 +11,7 @@ enabled = true
 [assets]
 directory = "."
 binding = "ASSETS"
+
+[[kv_namespaces]]
+binding = "REPORTS"
+id = "6cd69c6cde54408685b5f6dd2c2c8f86"
