@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Economic Principles — Centrix</title>
+  <style>
+    :root{
+      --navy:#0e2439; --navy-2:#16324f; --gold:#c9a227; --gold-soft:#e4c766;
+      --slate:#4a5b6d; --line:#dfe3e8; --paper:#f7f5f0; --ink:#1c2733;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Helvetica Neue',Arial,sans-serif;color:var(--ink);
+      background:linear-gradient(135deg,#f5f7fa 0%,#eef2f7 100%);
+      min-height:100vh;padding:2rem 1rem;line-height:1.75;
+    }
+    .container{
+      max-width:800px;margin:0 auto;background:#fff;border-radius:12px;
+      box-shadow:0 4px 20px rgba(14,36,57,.1);overflow:hidden;
+    }
+    .header{
+      background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 100%);
+      color:#fff;padding:3rem 2rem 2.25rem;
+    }
+    .header .brand{font-size:12px;font-weight:700;letter-spacing:.18em;color:var(--gold-soft);margin-bottom:.7rem}
+    .header h1{font-size:2.1rem;font-weight:800;line-height:1.15;margin-bottom:.7rem}
+    .header p{color:#cdd8e4;font-size:1.05rem;max-width:60ch}
+    .header .byline{margin-top:1rem;font-size:.85rem;letter-spacing:.06em;color:var(--gold-soft)}
+    .contributor{
+      background:var(--paper);border-left:3px solid var(--gold);border-radius:0;
+      padding:1.2rem 1.4rem;margin:2rem 0 0;font-size:.95rem;color:var(--slate);
+    }
+    .contributor b{color:var(--navy)}
+    .content{padding:2.25rem 2rem 2.5rem}
+    .intro{font-size:1.08rem;color:var(--slate)}
+    .intro p{margin-bottom:1rem}
+    h2{
+      font-size:1.05rem;margin:3rem 0 1rem;padding-bottom:.5rem;
+      border-bottom:2px solid var(--gold);color:var(--navy);
+      text-transform:uppercase;letter-spacing:.1em;font-size:.8rem;
+    }
+    .principle{margin:2.5rem 0;padding-bottom:2.5rem;border-bottom:1px solid var(--line)}
+    .principle:last-of-type{border-bottom:none}
+    .pnum{
+      font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+      color:var(--gold);margin-bottom:.5rem;
+    }
+    .principle h3{font-size:1.4rem;color:var(--navy);line-height:1.25;margin-bottom:.9rem}
+    .principle .claim{
+      font-size:1.05rem;color:var(--navy);font-weight:600;
+      border-left:3px solid var(--gold);padding-left:1rem;margin-bottom:1.1rem;
+    }
+    .principle p{margin-bottom:1rem;color:var(--ink)}
+    .catch{
+      background:var(--paper);border-radius:8px;padding:1.1rem 1.3rem;margin-top:1.2rem;
+      font-size:.96rem;
+    }
+    .catch b{color:var(--navy);display:block;margin-bottom:.35rem;
+      font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+    .catch p{margin-bottom:0;color:var(--slate)}
+    .figures{
+      background:var(--navy);color:#e8eef4;border-radius:8px;padding:1.4rem 1.5rem;margin:1.3rem 0;
+    }
+    .figures ul{margin:0;list-style:none}
+    .figures li{margin-bottom:.7rem;font-size:.98rem;padding-left:1.1rem;position:relative}
+    .figures li:last-child{margin-bottom:0}
+    .figures li:before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;
+      background:var(--gold);border-radius:50%}
+    .figures b{color:var(--gold-soft)}
+    .objection{
+      border:1px solid var(--line);border-top:4px solid var(--navy);
+      border-radius:8px;padding:1.6rem 1.5rem;margin:1.5rem 0;
+    }
+    .objection h3{font-size:1.2rem;color:var(--navy);margin-bottom:.8rem}
+    .objection p{margin-bottom:1rem}
+    .objection p:last-child{margin-bottom:0}
+    blockquote{
+      font-size:1.1rem;color:var(--navy);font-style:italic;
+      border-left:3px solid var(--gold);padding-left:1.2rem;margin:1.2rem 0;
+    }
+    ul.plain{margin:1rem 0 1rem 1.4rem}
+    ul.plain li{margin-bottom:.6rem}
+    a{color:var(--navy-2)}
+    .src{font-size:.85rem;color:#8895a3;margin-top:1rem}
+    .src a{color:#8895a3}
+    .foot{margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--line);font-size:.95rem}
+    .muted{color:var(--slate)}
+    @media (max-width:640px){
+      .header h1{font-size:1.6rem}
+      .content{padding:1.5rem 1.25rem 2rem}
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="brand">CENTRIX</div>
+    <h1>Economic principles</h1>
+    <p>Eight claims about how money actually behaves in a community — and the honest limit of each one.</p>
+    <p class="byline">With Saint Columba of Iona</p>
+  </div>
+
+  <div class="content">
+
+    <div class="intro">
+      <p>
+        Centrix argues for local production. That argument is only worth anything if the
+        economics underneath it hold up, so this page sets them out plainly enough to be
+        checked and disagreed with.
+      </p>
+      <p>
+        Every principle here is paired with its catch — the condition under which it stops
+        being true. A framework that only lists its own strengths is advertising, not
+        thinking. If you find one of these claims wrong, that is more useful to us than
+        agreement.
+      </p>
+
+      <div class="contributor">
+        <p>
+          <b>On the second name.</b> Much of what follows came out of a long argument with a
+          friend who has spent decades in business, once looked seriously at running for
+          Congress, and decided against it when he learned the only question anyone asked was
+          how much money he could raise. He writes here as <b>Saint Columba of Iona</b> — a
+          man who left home in middle age for a foreign country, and spent his later years
+          advising and mediating between quarrelling kings without ever wanting a throne. His
+          own clan were for generations the hereditary abbots of Columba's monastery, and
+          carry the saint's hand and cross on their arms still.
+        </p>
+        <p style="margin-top:.8rem;margin-bottom:0">
+          He disagrees with parts of Centrix, and the disagreement improved it. Where he
+          pushed back hardest, we have printed his objection rather than smoothed it over —
+          see <em>The strongest objection</em> below.
+        </p>
+      </div>
+    </div>
+
+    <h2>The spine</h2>
+
+    <div class="principle">
+      <div class="pnum">Principle 1</div>
+      <h3>Every dollar has a direction</h3>
+      <div class="claim">
+        Money does not simply get spent. It moves, repeatedly, and where it moves next is
+        decided by who received it.
+      </div>
+      <p>
+        Spend a dollar at a business owned by someone who lives near you and it tends to
+        move again nearby: to their staff, their suppliers, their accountant, their
+        landlord. Spend the same dollar at a business headquartered elsewhere and most of
+        it makes one local stop — a wage, perhaps a lease — before leaving for good.
+      </p>
+      <p>
+        The measured difference is large. Across studies by Civic Economics comparing
+        independents with chains:
+      </p>
+      <div class="figures">
+        <ul>
+          <li>About <b>52.9%</b> of a purchase at a local independent recirculates locally, against <b>under 13.6%</b> at a chain — roughly <b>three times</b> as much.</li>
+          <li>The Institute for Local Self-Reliance found <b>$100</b> spent at Maine independents generated <b>$45</b> of further local spending, against <b>$14</b> at a big-box store.</li>
+          <li>Restaurants and service businesses recirculate more than retail, because more of their revenue goes straight into local wages.</li>
+        </ul>
+      </div>
+      <p>
+        <strong>But the inverse is the real argument, and it is the one Centrix cares
+        about.</strong> If a local dollar multiplies locally, then a dollar that leaves
+        multiplies somewhere else. It is not neutral and it does not vanish — it becomes
+        someone else's payroll, someone else's tax base, someone else's town getting
+        slightly better while yours gets slightly worse. Extraction is not the absence of
+        circulation. It is circulation pointed away from you.
+      </p>
+      <p>
+        This is why the Production Assessment measures what a community is <em>missing</em>
+        rather than what it has. A category your area cannot supply is a category your
+        neighbours are funding elsewhere, every week, without deciding to.
+      </p>
+      <div class="catch">
+        <b>The catch</b>
+        <p>
+          These multipliers are frequently exaggerated. You will see claims that a local
+          dollar is worth ten or a hundred times its face value — that is not what the
+          research says and repeating it will cost you credibility with anyone who checks.
+          The honest figure is that independents recirculate roughly three times as much
+          as chains, and that a local-business economy produces a multiplier near
+          <em>1.4</em> where a non-local one produces about <em>0.4</em>. Meaningful, not
+          magical. Note too that 53 cents of a dollar does not "stay" locally — it is the
+          total generated across several rounds of spending.
+        </p>
+      </div>
+      <p class="src">
+        Sources:
+        <a href="https://amiba.net/local-multiplier/" target="_blank" rel="noopener">AMIBA — The Local Multiplier Effect</a>,
+        summarising <a href="http://www.civiceconomics.com/indie-impact.html" target="_blank" rel="noopener">Civic Economics</a>
+        and <a href="https://ilsr.org/" target="_blank" rel="noopener">ILSR</a> studies;
+        multiplier model from Shuman &amp; Poole, <em>Growing Local Living Economies</em> (BALLE, 2012).
+      </p>
+    </div>
+
+    <h2>How a small producer actually competes</h2>
+
+    <div class="principle">
+      <div class="pnum">Principle 2</div>
+      <h3>Scale wins on price and loses on nearly everything else</h3>
+      <div class="claim">
+        You will not out-price a corporation. You do not have to, because price is only one
+        of the things people buy.
+      </div>
+      <p>
+        A national retailer buys in volumes you cannot approach and will always sell the
+        commodity version cheaper. Competing there is a losing position, and any plan that
+        depends on winning it should be abandoned early.
+      </p>
+      <p>
+        What scale cannot easily do is anything that resists standardisation: goods too
+        perishable to ship, work that must be measured to a specific house, problems that
+        need solving this afternoon, jobs where the customer wants one accountable person
+        rather than a call centre, volumes too small to justify a production run. These are
+        not consolation prizes. They are structurally defensible, because the cost
+        advantages of scale turn into disadvantages the moment a job stops being identical
+        every time.
+      </p>
+      <div class="catch">
+        <b>The catch</b>
+        <p>
+          "Better quality" is not by itself a strategy — plenty of excellent producers have
+          gone broke while a worse competitor sold more. The advantage has to be something
+          the customer notices before purchase and is willing to pay for at the moment of
+          deciding. If you cannot name that thing in one sentence, you do not yet have one.
+        </p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="pnum">Principle 3</div>
+      <h3>Overhead, not revenue, decides whether you survive</h3>
+      <div class="claim">
+        Low fixed costs are not frugality. They are the thing that lets you keep operating
+        when revenue is bad, and they are the closest thing to freedom a small producer has.
+      </div>
+      <p>
+        Two businesses earning identically can face completely different situations. The one
+        carrying a lease, financed equipment, and staff needs a good month every month. The
+        one working out of a garage with paid-off tools can absorb a terrible quarter and
+        continue. In a downturn the second business does not merely survive longer — it buys
+        the first one's equipment cheaply.
+      </p>
+      <p>
+        This is the most transferable lesson from communities like the Amish, and it has
+        little to do with technology or aesthetics. It is that a low cost base lets you
+        accept smaller, steadier, more local work that a higher-overhead competitor cannot
+        afford to take.
+      </p>
+      <div class="catch">
+        <b>The catch</b>
+        <p>
+          Low overhead is often achieved by quietly not counting your own labour. A garden
+          that "saves a thousand dollars in vegetables" may represent two hundred hours —
+          which is a fine trade if you wanted those hours, and a bad business if you did
+          not. Price your time honestly even when nobody is invoicing you for it. Low
+          overhead should mean few fixed obligations, not unpaid work.
+        </p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="pnum">Principle 4</div>
+      <h3>Reputation is capital, and it compounds fastest where you are known</h3>
+      <div class="claim">
+        In a small market, being trusted is a durable asset that cannot be bought, hired, or
+        transferred in.
+      </div>
+      <p>
+        A competitor can match your equipment within a week and your prices within a day.
+        Twenty years of people saying you do what you said you would takes twenty years.
+        This asset accrues faster in small communities precisely because information travels
+        by conversation there — which is also why it is the one form of capital an outside
+        firm entering your area cannot bring with it.
+      </p>
+      <div class="catch">
+        <b>The catch</b>
+        <p>
+          It is asymmetric and unforgiving. Reputation accumulates slowly and collapses
+          quickly, and in a small market there is nowhere to restart. The same density of
+          conversation that builds it in five years destroys it in an afternoon. Treat it
+          as the collateral it is.
+        </p>
+      </div>
+    </div>
+
+    <h2>Discipline</h2>
+
+    <div class="principle">
+      <div class="pnum">Principle 5</div>
+      <h3>Demand must be verified before it is served</h3>
+      <div class="claim">
+        The market is indifferent to what a thing cost you to make. Prove somebody will buy
+        before you build the capacity to supply.
+      </div>
+      <p>
+        Consider hops. Demand is fairly inelastic — brewers need roughly what they need —
+        while supply expands eagerly whenever prices rise. Growers plant into a high price,
+        the crop lands as a glut, and then they hold out for a price the market has stopped
+        offering. Nobody pays more because the harvest was expensive.
+      </p>
+      <p>
+        The practical form of this principle is unglamorous: presell. Take a deposit, fill
+        one order, get a single paying customer before buying equipment. A verified customer
+        is worth more than any market analysis, including ours.
+      </p>
+      <div class="catch">
+        <b>The catch</b>
+        <p>
+          This cuts against the data on our own assessment. A statistical gap is a
+          hypothesis, not a market. Census figures exclude sole traders entirely, so a
+          category that looks empty may already be served by people working from home. Go
+          and look before you spend.
+        </p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="pnum">Principle 6</div>
+      <h3>The openings that remain are the ones too small to interest capital</h3>
+      <div class="claim">
+        Obvious, large, easily captured opportunities are already taken. What is left is
+        real, but it is small — and small is exactly what an individual can work with.
+      </div>
+      <p>
+        Money is good at finding cracks. If a straightforward way existed to make several
+        million dollars supplying a market of nine thousand people, somebody would have done
+        it, and the honest conclusion is that no such opening is sitting unclaimed.
+      </p>
+      <p>
+        But that argument has a floor. A company needing tens of millions in revenue cannot
+        justify pursuing forty thousand a year — not because it is unprofitable, but because
+        it is unprofitable <em>at their cost structure</em>, and the management attention
+        alone would exceed the return. That is not a market failure. It is a permanent
+        structural gap, and it is where nearly every viable local business lives. The
+        opportunity is not hidden. It is merely beneath the threshold at which anyone large
+        is willing to bend down.
+      </p>
+      <div class="catch">
+        <b>The catch</b>
+        <p>
+          Accept the implication. These are jobs, trades, and modest businesses — not
+          ventures that scale into something large. If your goal is rapid growth into a big
+          company, this framework is the wrong one and you should say so early rather than
+          discover it in year three.
+        </p>
+      </div>
+    </div>
+
+    <h2>Independence</h2>
+
+    <div class="principle">
+      <div class="pnum">Principle 7</div>
+      <h3>Not every exchange requires money</h3>
+      <div class="claim">
+        Shared tools, shared capacity, and mutual work reduce the amount of cash a producer
+        must raise before starting.
+      </div>
+      <p>
+        The largest barrier for most small producers is capital equipment used
+        intermittently. A kiln, a trailer, a commercial mixer, a bandsaw — each sits idle
+        most of the week. Shared ownership, cooperative purchasing, tool libraries, and
+        straightforward reciprocity between neighbours convert a purchase you cannot afford
+        into an arrangement you can. This is the other half of the Amish lesson: not
+        austerity, but the fact that shared capital equipment lets people start with far
+        less money than the equipment costs.
+      </p>
+      <div class="catch">
+        <b>The catch</b>
+        <p>
+          Two warnings. Informal arrangements fail over unwritten expectations — agree in
+          advance who repairs the thing, who insures it, and what happens if someone leaves.
+          And barter is not a tax loophole: in the United States the fair market value of
+          bartered goods and services is generally taxable income. Share to lower your
+          capital requirement, not to hide revenue.
+        </p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="pnum">Principle 8</div>
+      <h3>You do not need permission to begin</h3>
+      <div class="claim">
+        Policy could make local production dramatically easier. Waiting for it is optional,
+        and probably unwise.
+      </div>
+      <p>
+        There is a real legislative agenda that would help: preferential tax treatment for
+        genuinely local producers, eligibility for public food programmes, procurement rules
+        favouring local supply, relief on utilities and inputs. Centrix supports arguments
+        of that kind. But every one of them requires persuading people whose incentives
+        point elsewhere, on a timescale measured in years.
+      </p>
+      <p>
+        Meanwhile nothing prevents a person from identifying an unmet need this month and
+        filling it. The gap does not require a statute to exist, and closing it does not
+        require one either. Policy changes the slope of the hill. It does not decide whether
+        you walk up it.
+      </p>
+      <div class="catch">
+        <b>The catch</b>
+        <p>
+          Cutting the other way: regulation is sometimes the actual reason a gap exists.
+          Licensing, zoning, cottage-food limits, and inspection regimes are frequently why
+          nobody local supplies a thing. Find out which rules apply to you before assuming
+          the field is open — an unserved market is occasionally unserved for a reason
+          written down somewhere.
+        </p>
+      </div>
+    </div>
+
+    <h2>The strongest objection</h2>
+
+    <div class="objection">
+      <h3>People vote with their wallet, and they are broke</h3>
+      <p>
+        The most serious argument against everything above is not ideological, and it was put
+        to us by Saint Columba of Iona, who does not accept the conclusions of this page:
+      </p>
+      <blockquote>
+        When money is tight, people do not pay more to support local. They buy the cheap
+        imported version at the big-box store, because that is what they can afford. Local
+        producers cannot match the economies of scale that supply those shelves.
+      </blockquote>
+      <p>
+        This is correct, and any version of localism that depends on shoppers accepting
+        higher prices out of civic feeling will fail. Virtue is not a business model, and
+        farmers' markets remain a minority channel largely because they are priced for the
+        minority who can choose on principle.
+      </p>
+      <p>
+        Centrix draws two conclusions rather than arguing with it. The first is that local
+        production has to compete on the customer's actual terms — price, convenience,
+        speed, reliability — and not on where the money ends up. Circulation is why the
+        outcome matters to a community. It is not a reason for anyone to pay a premium, and
+        should never be used as one.
+      </p>
+      <p>
+        The second is that this objection defines the target. It rules out commodities where
+        scale decides and leaves precisely the ground described in Principles 2 and 6:
+        markets too small, too perishable, too custom, or too urgent for a distant supplier
+        to serve well. Someone who mows lawns is not competing with global agriculture.
+        Someone growing vegetables in neighbourhood yards and selling them on that street
+        has no shipping cost, no distribution margin, and no spoilage in transit — and can
+        sometimes undercut the supermarket rather than asking anyone to pay extra.
+      </p>
+      <p>
+        The test is therefore not whether buying local is admirable. It is whether a
+        particular local offer is <em>cheaper, faster, better, or easier</em> than the
+        alternative for the person deciding. Where it is, no persuasion is needed. Where it
+        is not, no amount of persuasion will hold.
+      </p>
+    </div>
+
+    <h2>Who this is for</h2>
+
+    <div class="principle" style="border-bottom:none">
+      <p>
+        Honesty about the audience: most people who read this will do nothing with it, and
+        that is not a character flaw. Producing something is harder than buying something.
+        It costs evenings, it risks money, and it can fail publicly in front of people you
+        know. Plenty of people have entirely sound reasons to decline — a job they value,
+        children to raise, a parent to care for, health that will not allow it, or a life
+        that is already full. Nothing here is an accusation aimed at them.
+      </p>
+      <p>
+        But the two positions are not symmetrical, and it is worth saying plainly. A
+        consumer's position is interchangeable: whatever you bought, somebody else could
+        have bought, and the seller is indifferent as to which of you it was. A producer's
+        position is not interchangeable. If you are the only person within thirty miles who
+        does a particular thing well, that is not a moral achievement — it is leverage, and
+        leverage is what lets a person set terms rather than accept them. Consuming spends
+        a position. Producing builds one.
+      </p>
+      <p>
+        Which is the honest reason to prefer it. Not because producers are better people,
+        but because a country where more people hold a position of their own is harder to
+        squeeze — and the three declines Centrix exists to address are, in the end, a
+        long story about ordinary people running out of leverage.
+      </p>
+      <p>
+        So Centrix is not a campaign to convert a nation of consumers. It is a set of tools
+        for the minority who already want out and cannot yet see the door. If that is not
+        you, these principles still explain where your money goes when you spend it, which
+        is worth knowing on its own. If it is you, the assessment is the next step.
+      </p>
+    </div>
+
+    <h2>What we are not claiming</h2>
+
+    <ul class="plain">
+      <li>That buying local fixes wage stagnation, housing costs, or the price of healthcare. It does not. Those need policy.</li>
+      <li>That a local dollar is worth ten or a hundred times its face value. It is worth roughly three times a chain dollar in local recirculation.</li>
+      <li>That most small producers succeed. Most do not, and the ones who do usually started smaller than they wanted to.</li>
+      <li>That local production scales into a large company. Usually it will not, by the logic of Principle 6.</li>
+      <li>That any of this is fast. Reputation compounds over years, which is the point of it.</li>
+    </ul>
+
+    <div class="foot">
+      <p class="muted">
+        These principles are the reasoning behind the Production Assessment, which applies
+        them to your own ZIP code using public Census data.
+      </p>
+      <p style="margin-top:1rem">
+        <a href="/production-assessment.html">Take the Production Assessment &rarr;</a>
+        &nbsp;&middot;&nbsp;
+        <a href="/methodology.html">How the numbers are calculated</a>
+        &nbsp;&middot;&nbsp;
+        <a href="/">Centrix home</a>
+      </p>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

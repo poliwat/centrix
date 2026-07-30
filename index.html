@@ -148,6 +148,14 @@
   .tag.r{color:var(--right)}
   .tag.c{color:var(--gold)}
   .cell.centrix{background:#fbf8ee}
+  .issue .mechanism{border-top:1px solid var(--line);background:#fcfbf7;padding:22px 28px}
+  .issue .mechanism .mh{font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--navy);margin-bottom:12px}
+  .issue .mechanism ol{margin:0 0 0 20px;font-size:15px;color:var(--slate)}
+  .issue .mechanism li{margin-bottom:9px;line-height:1.6}
+  .issue .mechanism li:last-child{margin-bottom:0}
+  .issue .mechanism li b{color:var(--navy)}
+  .issue .mechanism .honest{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);font-size:14px;color:var(--slate)}
+  .issue .mechanism .honest b{color:var(--navy)}
   .cell p{font-size:14.5px;color:var(--slate);margin-bottom:0}
   .cell.centrix p{color:var(--ink)}
 
@@ -185,6 +193,17 @@
   .local-card p{font-size:15px;color:var(--slate);margin-bottom:0}
   .local .frame{background:var(--navy);color:#e8eef4;border-radius:8px;padding:28px 30px;margin-top:34px;font-size:17px;line-height:1.6}
   .local .frame b{color:var(--gold-soft)}
+
+  /* PRINCIPLES STRIP */
+  .principles-strip{margin-top:34px;padding-top:30px;border-top:1px solid var(--line)}
+  .ps-head{font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+  .ps-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 30px}
+  .ps-grid div{font-size:15px;color:var(--slate);line-height:1.6}
+  .ps-grid b{color:var(--navy)}
+  .ps-more{margin-top:22px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700}
+  .ps-more a{color:var(--navy-2);text-decoration:none}
+  .ps-more a:hover{text-decoration:underline}
+  @media (max-width:860px){.ps-grid{grid-template-columns:1fr}}
 
   /* ASSESSMENT CTA */
   .assess{background:var(--navy);text-align:center}
@@ -286,6 +305,7 @@
       <a href="#declines">The Three Declines</a>
       <a href="#mission">Mission</a>
       <a href="#philosophy">Philosophy</a>
+      <a href="principles.html">Principles</a>
       <a href="#platform">Platform</a>
       <a href="data.html">The Data</a>
       <a href="scorecard.html">Scorecard</a>
@@ -457,6 +477,17 @@
     <div class="frame">
       <p style="margin-bottom:0">Prosperity built close to home is resilient. It is the quiet lesson of communities like the Amish, who sustain durable local economies with low overhead, real skills, and reputations that take decades to build and seconds to lose. <b>Keeping money circulating inside a community is not nostalgia — it is the most reliable way ordinary people have ever built wealth.</b></p>
     </div>
+
+    <div class="principles-strip">
+      <div class="ps-head">The economics underneath this</div>
+      <div class="ps-grid">
+        <div><b>Every dollar has a direction.</b> Independents recirculate roughly three times as much locally as chains — so a dollar that leaves is funding someone else's town, not vanishing.</div>
+        <div><b>Scale wins on price, loses elsewhere.</b> You will not out-price a corporation. You do not have to, because price is only one thing people buy.</div>
+        <div><b>Overhead decides survival.</b> Low fixed costs are not frugality — they are what lets you keep working through a bad quarter.</div>
+        <div><b>Reputation is capital.</b> A competitor can match your prices in a day. Twenty years of doing what you said takes twenty years.</div>
+      </div>
+      <p class="ps-more"><a href="principles.html">Read all eight principles, each with its honest limit &rarr;</a></p>
+    </div>
   </div>
 </section>
 
@@ -540,7 +571,18 @@
       <div class="body">
         <div class="cell"><span class="tag l">Left is right that…</span><p>Communities hollowed out by offshoring need active public investment, not just "let the market sort it out."</p></div>
         <div class="cell"><span class="tag r">Right is right that…</span><p>Entrepreneurship, private ownership, and self-reliance — not permanent government jobs — build lasting prosperity.</p></div>
-        <div class="cell centrix"><span class="tag c">The Centrix synthesis</span><p>A national program of open, systematically published guides — inspired by the durable self-sufficiency of Amish communities — teaching any citizen how to pick a resource or good, produce it, and sell it locally. Micro-grants and mentorship turn the guides into real workshops and shops.</p></div>
+        <div class="cell centrix"><span class="tag c">The Centrix synthesis</span><p>A national program of open, systematically published guides — inspired by the durable self-sufficiency of Amish communities — teaching any citizen how to pick a resource or good, produce it, and sell it locally. Micro-grants and mentorship turn the guides into real workshops and shops. Then <b>close the cost gap</b> so a small producer can compete on price rather than on goodwill.</p></div>
+      </div>
+      <div class="mechanism">
+        <div class="mh">How you close the cost gap</div>
+        <ol>
+          <li><b>A local-content certification</b> modelled on USDA Organic — a clear, auditable standard, such as no more than 5% of a product's inputs sourced from outside the country, with a stricter tier for genuinely regional production. Without a definition, every other measure here gets gamed.</li>
+          <li><b>Tax relief on certified local goods</b>, so the price a customer sees narrows against the imported equivalent instead of the producer absorbing the difference.</li>
+          <li><b>Rebates on utilities and essential inputs</b> — power, water, feed, fertiliser, packaging. Scale buyers already negotiate these discounts privately; this gives small producers something closer to parity.</li>
+          <li><b>Local procurement preference</b> for schools, hospitals, and municipal contracts wherever a certified supplier exists and the price is within a defined band of the market rate.</li>
+          <li><b>Enforcement with real teeth</b> — fraudulent certification treated as fraud, with penalties large enough to price it out, because a standard nobody polices is worse than no standard at all.</li>
+        </ol>
+        <p class="honest"><b>The honest tension:</b> policing this cheaply means digitising it, and a database tracking who produced what edges toward surveillance nobody asked for. Price bands invite gaming in the other direction, too — a protected supplier with a guaranteed public buyer has every reason to charge the top of the band. Both problems are manageable, neither disappears, and any version of this that pretends otherwise is selling something. <a href="principles.html" style="color:var(--navy-2);font-weight:700">Why we think local production is worth the trouble &rarr;</a></p>
       </div>
     </div>
 
@@ -560,7 +602,16 @@
       <div class="body">
         <div class="cell"><span class="tag l">Left is right that…</span><p>No one in a wealthy nation should go without food, shelter, or medical care; a real safety net is a moral floor.</p></div>
         <div class="cell"><span class="tag r">Right is right that…</span><p>Programs that punish work or trap people in dependency harm the very people they aim to help.</p></div>
-        <div class="cell centrix"><span class="tag c">The Centrix synthesis</span><p>Keep the net strong — and redesign benefits so earning income phases support out gradually instead of yanking it away. Every recipient gets access to the producer guides and start-up capital, so the net becomes a launch pad.</p></div>
+        <div class="cell centrix"><span class="tag c">The Centrix synthesis</span><p>Keep the net strong — and redesign benefits so earning income phases support out gradually instead of yanking it away. Every recipient gets access to the producer guides and start-up capital, so the net becomes a launch pad. Then <b>spend the net's own money locally</b>, so it feeds families and builds producers at the same time.</p></div>
+      </div>
+      <div class="mechanism">
+        <div class="mh">Make the net buy local</div>
+        <ol>
+          <li><b>Certified local producers become eligible vendors</b> for WIC, SNAP, school meals, and senior nutrition programs — so the household that most needs fresh food can buy it from a grower down the road, at program prices rather than farmers'-market prices.</li>
+          <li><b>The subsidy does double duty.</b> The same dollar feeds a family and pays a local producer, which is the multiplier working for the taxpayer instead of against them. Public money spent on food currently leaves most communities almost immediately.</li>
+          <li><b>Means-test the pricing, not just the recipient.</b> A guaranteed government buyer is an invitation to overcharge; eligibility should require prices within a defined band of prevailing market rates.</li>
+        </ol>
+        <p class="honest"><b>The honest tension:</b> this only helps if the food is genuinely affordable at program prices, and small growers often cannot hit that number without the cost relief in Plank 2. The two measures work together or not at all — which is the argument for sequencing certification and input rebates first.</p>
       </div>
     </div>
 
